@@ -2,20 +2,20 @@ package logica;
 
 import javax.swing.Timer;
 
-import logica.entidade.Entidade;
+import logica.entidade.EntidadeBase;
 import util.Recurso;
 
 public class GameLogic {
 
 	private static Timer tempo;
 
-	private static Entidade jogador;
+	private static EntidadeBase jogador;
 
 	public static void iniciarJogo() {
 
 		Recurso.init();
 
-		jogador = new Entidade("jogador", 200, 200);
+		jogador = new EntidadeBase("jogador", 200, 200);
 
 		tempo = new Timer(20, new GameLoop());
 		tempo.start();
@@ -31,7 +31,7 @@ public class GameLogic {
 		jogador.setPosition(jogador.getPosX() + dirX, jogador.getPosY() + dirY);
 	}
 
-	public static Entidade getJogador() {
+	public static EntidadeBase getJogador() {
 		return jogador;
 	}
 

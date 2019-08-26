@@ -1,18 +1,18 @@
 package logica.nivel;
 
-import logica.entidade.Entidade;
+import logica.entidade.EntidadeBase;
 import logica.entidade.Pavimento;
 
 public class Level {
 
-	private Entidade[][] andar;
+	private EntidadeBase[][] andar;
 	
 	public Level(String[] andarInfo) {
 		
-		andar = new Entidade[andarInfo.length][];
+		andar = new EntidadeBase[andarInfo.length][];
 		
 		for (int y=0; y < andarInfo.length; y++) {
-			andar[y] = new Entidade[andarInfo[y].length()];
+			andar[y] = new EntidadeBase[andarInfo[y].length()];
 			
 			for (int x=0; x < andarInfo[y].length(); x++) {
 				switch(andarInfo[y].charAt(x)) {
@@ -36,7 +36,7 @@ public class Level {
 		return andar.length;
 	}
 	
-	public Entidade getEntidadeAt(int x, int y) {
+	public EntidadeBase getEntidadeAt(int x, int y) {
 		return andar[y][x];
 	}
 	

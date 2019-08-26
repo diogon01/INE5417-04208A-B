@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 
-import logica.entidade.Entidade;
+import logica.entidade.EntidadeBase;
 import util.Recurso;
 
 public class Renderer {
@@ -16,7 +16,7 @@ public class Renderer {
 	 * @param entidade 
 	 * @param graphics
 	 */
-	public void renderEntidade(Entidade entidade, Graphics graphics) {
+	public void renderEntidade(EntidadeBase entidade, Graphics graphics) {
 		BufferedImage sprite = Recurso.getSprite(entidade.getNome());
 		graphics.drawImage(sprite, entidade.getPosX(), entidade.getPosY(), sprite.getWidth() * ZOOM_LEVEL,
 				sprite.getHeight() * ZOOM_LEVEL, null);

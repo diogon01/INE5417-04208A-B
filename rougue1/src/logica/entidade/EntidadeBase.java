@@ -1,6 +1,6 @@
 package logica.entidade;
 
-public class Entidade {
+public class EntidadeBase {
 
 	private String nome;
 
@@ -15,7 +15,7 @@ public class Entidade {
 	 * @param posY - Y cordenada do topo esquerdo da tela
 	 */
 
-	public Entidade(String nome, int posX, int posY) {
+	public EntidadeBase(String nome, int posX, int posY) {
 
 		this.nome = nome;
 		this.posX = posX;
