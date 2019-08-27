@@ -1,6 +1,9 @@
 package gui;
 
 import java.awt.Color;
+import gui.Renderer;
+import logica.GameLogic;
+
 import java.awt.Graphics;
 import java.awt.Window;
 
@@ -28,7 +31,7 @@ public class GameScreen extends JPanel {
 		graphics.fillRect(30, 30, 50, 50);
 		graphics.fillRect(50, 100, 40, 40);
 		
-		graphics.drawImage(Recurso.getSprite("player"), 200, 200, 32*3, 32*3, null);
+		Renderer.renderEntidade(GameLogic.getJogador(), graphics);
 		
 		repaint();
 	}

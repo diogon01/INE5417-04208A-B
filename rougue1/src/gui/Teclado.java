@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public class Teclado implements KeyListener {
 
-	private static boolean[] keys;
+	private static boolean[] keys = new boolean[100];
 
 	public Teclado() {
 		keys = new boolean[100];

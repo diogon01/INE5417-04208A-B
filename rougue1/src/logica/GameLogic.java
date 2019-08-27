@@ -3,6 +3,7 @@ package logica;
 import javax.swing.Timer;
 
 import logica.entidade.EntidadeBase;
+import logica.nivel.Level;
 import util.Recurso;
 
 public class GameLogic {
@@ -10,12 +11,27 @@ public class GameLogic {
 	private static Timer tempo;
 
 	private static EntidadeBase jogador;
+	
+	private static Level levelAtual;
 
+	/**
+	 * Chamado pelo Man quando o jogo *e iniciado
+	 */
 	public static void iniciarJogo() {
 
-		Recurso.init();
 
-		jogador = new EntidadeBase("jogador", 200, 200);
+		jogador = new EntidadeBase("jogador", 64, 64);
+		
+		levelAtual = new Level(new String[] {
+			"##########",
+			"#...#....#",
+			"#...#....#",
+			"##.##....#",
+			"#...#....#",
+			"#........#",
+			"#...#....#",
+			"##########"
+		});
 
 		tempo = new Timer(20, new GameLoop());
 		tempo.start();
