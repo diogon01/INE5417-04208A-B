@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public class Teclado implements KeyListener {
 
-	private static boolean[] keys = new boolean[100];
+	private static boolean[] keys ;
 
 	public Teclado() {
 		keys = new boolean[100];
@@ -27,6 +27,7 @@ public class Teclado implements KeyListener {
 	
 	// Verifica se a tecla *esta pressionado
 	public static boolean teclaPressionada(int key) {
+		System.out.println(" [Teclado Pressionado]: Apertou o teclado..." + key);
 		return keys[key];
 	}
 

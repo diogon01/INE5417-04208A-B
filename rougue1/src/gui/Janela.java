@@ -10,6 +10,10 @@ public class Janela {
 	private static JFrame janela;
 	private static GameScreen screen;
 
+	/**
+	 * Metodo que inicia o JFRAME
+	 * @return vazio
+	 */
 	public static void criarJanela() {
 
 		janela = new JFrame("Diablo 2D");
@@ -25,6 +29,10 @@ public class Janela {
 
 	}
 
+	/**
+	 * Método que torna o JFRAME visível
+	 * @return vazio
+	 */
 	public static void tornarVisivel() {
 		if (janela != null)
 			janela.setVisible(true);

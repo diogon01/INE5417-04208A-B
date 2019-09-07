@@ -33,8 +33,11 @@ public class GameLogic {
 			"##########"
 		});
 
-		tempo = new Timer(20, new GameLoop());
-		tempo.start();
+		
+		  tempo = new Timer(200, new GameLoop());
+		  tempo.start();
+		 
+		
 	}
 
 	/**

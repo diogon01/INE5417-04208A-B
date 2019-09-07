@@ -11,7 +11,7 @@ public class Main {
 	public static void main(String[] args){
 		 
 		Properties text = new Properties();
-		text.setProperty("fontSize","12");
+		text.setProperty("fontSize","36");
 		text.setProperty("font", "Courier");
 		ConsoleSystemInterface csi = null;
 		try{
