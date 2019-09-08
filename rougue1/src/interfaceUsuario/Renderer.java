@@ -1,4 +1,4 @@
-package gui;
+package interfaceUsuario;
 
 import java.awt.Graphics;
 import java.awt.Window;

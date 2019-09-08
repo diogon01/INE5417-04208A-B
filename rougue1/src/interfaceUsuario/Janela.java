@@ -1,4 +1,4 @@
-package gui;
+package interfaceUsuario;
 
 import javax.swing.JFrame;
 
@@ -8,7 +8,7 @@ public class Janela {
 	private static final int ALTURA = 600;
 
 	private static JFrame janela;
-	private static GameScreen screen;
+	private static InterfaceJogo screen;
 
 	/**
 	 * Metodo que inicia o JFRAME
@@ -21,7 +21,7 @@ public class Janela {
 		janela.setBounds(20, 20, LARGURA, ALTURA);
 		janela.setResizable(false);
 
-		screen = new GameScreen();
+		screen = new InterfaceJogo();
 
 		janela.add(screen);
 

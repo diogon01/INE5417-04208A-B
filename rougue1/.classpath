@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="/home/diogo/git/libjcsi/distro/libjcsi.jar" sourcepath="/libjcsi"/>
 	<classpathentry kind="lib" path="/home/diogo/git/libjcsi/distro/sLibcsi.jar"/>
+	<classpathentry kind="lib" path="/home/diogo/estudos/UFSC/2019.1/Aps/ine5409-20192/InterfaceJogoBasico/netgames/ngnrtFramework.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

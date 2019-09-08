@@ -1,6 +1,6 @@
 package diablo2d;
 
-import gui.Janela;
+import interfaceUsuario.Janela;
 import logica.GameLogic;
 import util.Recurso;
 
