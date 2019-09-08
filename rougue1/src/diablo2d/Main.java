@@ -1,22 +1,36 @@
 package diablo2d;
 
-import interfaceUsuario.Janela;
-import logica.GameLogic;
-import util.Recurso;
+import java.awt.EventQueue;
+
+import interfaceUsuario.InterfaceJogo;
 
 public class Main {
 
+	private static InterfaceJogo interfaceJogo;
+
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		System.out.println("[Main]: Iniciando o jogo...");
-		Recurso.init();
-		Janela.criarJanela();
-		Janela.tornarVisivel();
-		GameLogic.iniciarJogo();
-		
-		System.out.println("[Main]: Jogo Iniciado");
-	
-		
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				try {
+					interfaceJogo = new InterfaceJogo();
+					interfaceJogo.frame.setVisible(true);
+
+				} catch (Exception e) {
+					System.out.println("[Erro]: " + e.toString());
+					e.printStackTrace();
+				}
+			}
+		});
+//		Recurso.init();
+//		Janela.criarJanela();
+//		Janela.tornarVisivel();
+//		GameLogic.iniciarJogo();
+//		
+//		System.out.println("[Main]: Jogo Iniciado");
+//	
 
 	}
 
