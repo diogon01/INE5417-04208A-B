@@ -2,28 +2,32 @@ package diablo2d;
 
 import java.awt.EventQueue;
 
-import interfaceUsuario.InterfaceJogo;
+import javax.swing.JFrame;
 
-public class Main {
+import interfaceUsuario.InterfaceJogo;
+import util.Recurso;
+
+public class Main extends JFrame {
 
 	private static InterfaceJogo interfaceJogo;
 
 	public static void main(String[] args) {
-		System.out.println("[Main]: Iniciando o jogo...");
 		EventQueue.invokeLater(new Runnable() {
+			
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				try {
+					Recurso.init();
 					interfaceJogo = new InterfaceJogo();
 					interfaceJogo.frame.setVisible(true);
-
-				} catch (Exception e) {
-					System.out.println("[Erro]: " + e.toString());
+				}catch (Exception e) {
 					e.printStackTrace();
+					System.out.println("[ERRO]"+ e.toString());
 				}
+				
 			}
 		});
+	}
 //		Recurso.init();
 //		Janela.criarJanela();
 //		Janela.tornarVisivel();
@@ -31,7 +35,5 @@ public class Main {
 //		
 //		System.out.println("[Main]: Jogo Iniciado");
 //	
-
-	}
 
 }
