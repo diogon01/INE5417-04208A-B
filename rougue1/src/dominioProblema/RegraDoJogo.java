@@ -1,4 +1,4 @@
-package logica;
+package dominioProblema;
 
 import logica.entidade.EntidadeBase;
 import util.Recurso;

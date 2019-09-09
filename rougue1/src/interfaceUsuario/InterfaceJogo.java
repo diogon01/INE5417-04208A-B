@@ -2,7 +2,6 @@ package interfaceUsuario;
 
 import java.awt.Color;
 
-import logica.GameLogic;
 import net.slashie.libjcsi.CSIColor;
 import net.slashie.libjcsi.CharKey;
 import net.slashie.libjcsi.ConsoleSystemInterface;
@@ -24,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import diablo2d.AtorJogador;
+import dominioProblema.GameLogic;
 import interfaceUsuario.Renderer;
 import util.Recurso;
 
@@ -38,8 +38,6 @@ public class InterfaceJogo extends JPanel {
 	private GridLayout gridlayout;
 	
 
-	private ConsoleSystemInterface csi;
-	private int a, b;
 
 	protected JLabel player1;
 	protected JLabel player2;
@@ -58,8 +56,8 @@ public class InterfaceJogo extends JPanel {
 		atorJogador = new AtorJogador(this);
 
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setTitle("Snake");
+		frame.setBounds(100,100, 800, 600);
+		frame.setTitle("Diablo2D Temporada 18");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gridlayout = new GridLayout(9, 11, 1, 1);
 		frame.getContentPane().setLayout(gridlayout);
@@ -71,6 +69,12 @@ public class InterfaceJogo extends JPanel {
 				frame.getContentPane().add(new JPanel().add(matriz[i][j]));
 			}
 		}
+		
+		matriz[0][0].setText("Tempo");
+		matriz[0][10].setText("Fenda");
+		matriz[8][0].setText("Jogador1");
+		matriz[8][10].setText("Jogador2");
+
 		
 		this.renderizar_menu();
 
@@ -119,7 +123,6 @@ public class InterfaceJogo extends JPanel {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			// Necess�rio definir endere�o do servidor e nome do jogador
 			String mensagem = atorJogador.conectar();
 			JOptionPane.showMessageDialog(null, mensagem);
 		}
