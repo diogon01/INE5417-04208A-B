@@ -1,15 +1,7 @@
 package interfaceUsuario;
 
-import java.awt.Color;
 
-import net.slashie.libjcsi.CSIColor;
-import net.slashie.libjcsi.CharKey;
-import net.slashie.libjcsi.ConsoleSystemInterface;
-import net.slashie.libjcsi.wswing.WSwingConsoleInterface;
-
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -23,13 +15,15 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import InterfaceGrafica.InterfaceJogo.Icone;
 import diablo2d.AtorJogador;
-import dominioProblema.GameLogic;
-import interfaceUsuario.Renderer;
 import util.Recurso;
 
 public class InterfaceJogo extends JPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private AtorJogador atorJogador;
 
@@ -84,7 +78,11 @@ public class InterfaceJogo extends JPanel {
 		 }
 	 }
 	 
-	// matriz[6][3].setIcon(new ImageIcon());
+	 matriz[6][3].setIcon(new ImageIcon(
+			 getClass().getResource("knight_m_idle_anim_f2.png")));
+	 
+	 matriz[6][7].setIcon(new ImageIcon(
+			 getClass().getResource("wizzard_m_idle_anim_f0.png")));
 	 
 	 frame.pack();
 
