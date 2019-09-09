@@ -1,4 +1,5 @@
 package util;
+import java.util.Random;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -29,6 +30,16 @@ public class Recurso {
 	
 	public static BufferedImage getSprite(String nome) {
 		return sprites.get(nome);
+	}
+	
+	public static int geradorDeNumeroAleatorios(int min, int max) {
+
+		if (min >= max) {
+			throw new IllegalArgumentException("max must be greater than min");
+		}
+
+		Random r = new Random();
+		return r.nextInt((max - min) + 1) + min;
 	}
 
 }

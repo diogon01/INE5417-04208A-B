@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -22,6 +23,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import InterfaceGrafica.InterfaceJogo.Icone;
 import diablo2d.AtorJogador;
 import dominioProblema.GameLogic;
 import interfaceUsuario.Renderer;
@@ -56,10 +58,10 @@ public class InterfaceJogo extends JPanel {
 		atorJogador = new AtorJogador(this);
 
 		frame = new JFrame();
-		frame.setBounds(100,100, 800, 600);
+		frame.setBounds(100,100, 450,300);
 		frame.setTitle("Diablo2D Temporada 18");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		gridlayout = new GridLayout(9, 11, 1, 1);
+		gridlayout = new GridLayout(9, 11, 8, 8);
 		frame.getContentPane().setLayout(gridlayout);
 		
 		matriz = new JLabel[9][11];
@@ -74,6 +76,17 @@ public class InterfaceJogo extends JPanel {
 		matriz[0][10].setText("Fenda");
 		matriz[8][0].setText("Jogador1");
 		matriz[8][10].setText("Jogador2");
+		
+	 for (int i=0; i <9; i++) {
+		 for(int j= 1; j <10; j++) {
+			 matriz[i][j].setIcon(new ImageIcon(
+					 getClass().getResource("floor_"+Recurso.geradorDeNumeroAleatorios(1,8)+".png")));
+		 }
+	 }
+	 
+	// matriz[6][3].setIcon(new ImageIcon());
+	 
+	 frame.pack();
 
 		
 		this.renderizar_menu();
