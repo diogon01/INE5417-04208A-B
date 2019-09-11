@@ -75,16 +75,8 @@ public class InterfaceJogo extends JPanel {
 
 		for (int i = 0; i < 9; i++) {
 			for (int j = 1; j < 11; j++) {
-				BufferedImage img = null;
-				try {
-					img = ImageIO.read(new File("floor_" + Recurso.geradorDeNumeroAleatorios(1, 8) + ".png"));
-					Image dimg = img.getScaledInstance(64, 64, Image.SCALE_SMOOTH);
-					matriz[i][j].setIcon(new ImageIcon(dimg));
-				} catch (IOException e) {
-					System.out.println("[ERRO][IOe]: Erro ao adicionar  a imagem!");
-					e.printStackTrace();
-				}
 
+				matriz[i][j].setIcon(new ImageIcon(getClass().getResource("floor_" + Recurso.geradorDeNumeroAleatorios(1, 8) + ".png")));
 			}
 		}
 

@@ -11,7 +11,7 @@ public class Jogador {
 	private boolean inventarioAberto;
 
 	public Jogador(String nome, int posX, int posY) {
-		super();
+		
 		this.iventario = new Item[TAMANHO_INVENTORIO];
 		this.inventarioAberto = false;
 	}
