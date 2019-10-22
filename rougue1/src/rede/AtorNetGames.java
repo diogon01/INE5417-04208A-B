@@ -1,5 +1,7 @@
 package rede;
 
+import javax.swing.JOptionPane;
+
 import br.ufsc.inf.leobr.cliente.Jogada;
 import br.ufsc.inf.leobr.cliente.OuvidorProxy;
 import br.ufsc.inf.leobr.cliente.Proxy;
@@ -7,19 +9,26 @@ import br.ufsc.inf.leobr.cliente.exception.ArquivoMultiplayerException;
 import br.ufsc.inf.leobr.cliente.exception.JahConectadoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
+import dominioProblema.Caverna;
 
-public class AtorNetGames implements OuvidorProxy  {
-	
+public class AtorNetGames implements OuvidorProxy {
+
+	private static final long serialVersionUID = 1L;
 	protected Proxy proxy;
-	
+	protected Caverna caverna;
+
 	public AtorNetGames() {
 		super();
 		this.proxy = Proxy.getInstance();
 		proxy.addOuvinte(this);
 	}
+	
+	public void setCaverna(Caverna caverna) {
+		this.caverna = caverna;
+	}
 
-public String conectar(String servidor, String nome) {
-		
+	public String conectar(String servidor, String nome) {
+
 		try {
 			proxy.conectar(servidor, nome);
 		} catch (JahConectadoException e) {
@@ -34,7 +43,6 @@ public String conectar(String servidor, String nome) {
 		}
 		return "Sucesso: conectado a Netgames Server";
 	}
-	
 
 	public String desconectar() {
 		try {
@@ -47,43 +55,48 @@ public String conectar(String servidor, String nome) {
 	}
 
 	public String iniciarPartida() {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			proxy.iniciarPartida(new Integer(2));
+		} catch (NaoConectadoException e) {
+			e.printStackTrace();
+			return "Falha ao iniciar o NET-Games";
+		}
+		return "Sucesso: solicitacao de inicio enviada a Netgames Server";
 	}
 
 	@Override
 	public void iniciarNovaPartida(Integer posicao) {
-		// TODO Auto-generated method stub
-		
+		JOptionPane.showMessageDialog(null, "Recebida mensagem de nova partida");
+
 	}
 
 	@Override
 	public void finalizarPartidaComErro(String message) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void receberMensagem(String msg) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void receberJogada(Jogada jogada) {
-		// TODO Auto-generated method stub
 		
+
 	}
 
 	@Override
 	public void tratarConexaoPerdida() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void tratarPartidaNaoIniciada(String message) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
