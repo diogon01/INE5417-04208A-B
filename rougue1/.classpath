@@ -2,11 +2,8 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="/home/diogo/git/libjcsi/distro/libjcsi.jar" sourcepath="/libjcsi"/>
-	<classpathentry kind="lib" path="/home/diogo/git/libjcsi/distro/sLibcsi.jar"/>
-	<classpathentry kind="lib" path="/home/diogo/estudos/UFSC/2019.1/Aps/ine5409-20192/InterfaceJogoBasico/netgames/ngnrtFramework.jar"/>
-	<classpathentry kind="lib" path="/home/diogo/UFSC/2019.2/APS/libis/asciiPanel.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/diogo/Downloads/libjcsi-master/distro/libjcsi.jar"/>
-	<classpathentry kind="lib" path="C:/Users/diogo/Downloads/ngnrtFramework.jar"/>
+	<classpathentry kind="lib" path="netgames/ngnrtFramework.jar"/>
+	<classpathentry kind="lib" path="netgames"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
