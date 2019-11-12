@@ -1,32 +1,34 @@
 package diablo2d;
 
+
 import dominioProblema.Caverna;
 import interfaceUsuario.InterfaceJogo;
 import rede.AtorNetGames;
 
 public class AtorJogador {
 	
-	protected Caverna caverna;
-	protected AtorNetGames ngServer;
-	protected InterfaceJogo interfaceJogo;
+	protected Caverna tab;
+	protected AtorNetGames rede;
+	protected InterfaceJogo janela;
+	protected String idusuario;
 	
-	public AtorJogador(InterfaceJogo interfaceJogo) {
-		this.interfaceJogo = interfaceJogo;
-		ngServer= new AtorNetGames();
-		caverna = new Caverna(this, ngServer);
-		
+	public AtorJogador (InterfaceJogo jan){
+		super();
+		rede = new AtorNetGames(this);
+		janela = jan;
+		tab = new Caverna();
+		tab.iniciar();
 	}
-	
 	public String conectar() {
-		String servidor = interfaceJogo.solicitarServidor();
-		String nome = interfaceJogo.solicitarNome();
-		return ngServer.conectar(servidor, nome);
+		String servidor = janela.solicitarServidor();
+		String nome = janela.solicitarNome();
+		return rede.conectar(servidor, nome);
 	}
 	public String desconectar() {
-		return ngServer.desconectar();
+		return rede.desconectar();
 	}
 	public String iniciarPartida() {
-		return ngServer.iniciarPartida();
+		return rede.iniciarPartida();
 	}
 
 }

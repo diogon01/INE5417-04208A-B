@@ -9,6 +9,7 @@ import br.ufsc.inf.leobr.cliente.exception.ArquivoMultiplayerException;
 import br.ufsc.inf.leobr.cliente.exception.JahConectadoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
+import diablo2d.AtorJogador;
 import dominioProblema.Caverna;
 
 public class AtorNetGames implements OuvidorProxy {
@@ -16,9 +17,11 @@ public class AtorNetGames implements OuvidorProxy {
 	private static final long serialVersionUID = 1L;
 	protected Proxy proxy;
 	protected Caverna caverna;
-
-	public AtorNetGames() {
+	protected AtorJogador interfaceGrafica;
+	
+	public AtorNetGames(AtorJogador interfaceGraf) {
 		super();
+		this.interfaceGrafica = interfaceGraf;
 		this.proxy = Proxy.getInstance();
 		proxy.addOuvinte(this);
 	}
