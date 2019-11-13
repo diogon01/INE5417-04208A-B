@@ -3,9 +3,21 @@ package dominioProblema;
 public class Jogador {
 
 	protected String nome;
-	protected boolean simbolo;
-	protected boolean daVez;
+	private int cor;
 	protected boolean vencedor;
+	protected boolean simbolo;
+	private int linha;
+	private int coluna;
+	protected boolean daVez;
+
+	public Jogador(String nome, int cor, int linha, int coluna, boolean daVez) {
+		super();
+		this.nome = nome;
+		this.cor = cor;
+		this.linha = linha;
+		this.coluna = coluna;
+		this.daVez = daVez;
+	}
 
 	public boolean informarDaVez() {
 		return daVez;
@@ -17,6 +29,10 @@ public class Jogador {
 
 	public boolean informarVencedor() {
 		return vencedor;
+	}
+
+	public void setVencedor() {
+		this.vencedor = true;
 	}
 
 	public boolean informarSimbolo() {
@@ -46,6 +62,30 @@ public class Jogador {
 
 	public void assumirVencedor() {
 		vencedor = true;
+	}
+
+	public int getCor() {
+		return cor;
+	}
+
+	public void setCor(int cor) {
+		this.cor = cor;
+	}
+
+	public int getLinha() {
+		return linha;
+	}
+
+	public void setLinha(int linha) {
+		this.linha = linha;
+	}
+
+	public int getColuna() {
+		return coluna;
+	}
+
+	public void setColuna(int coluna) {
+		this.coluna = coluna;
 	}
 
 }

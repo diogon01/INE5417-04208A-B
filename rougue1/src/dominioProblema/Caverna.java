@@ -9,7 +9,7 @@ import logica.itens.Item;
 public class Caverna {
 	
 	//TODO: Vericar melhor as posicoes
-	protected Posicao posicoes[][] = new Posicao[8][8];
+	protected Posicao posicoes[][] = new Posicao[9][11];
 	protected Jogador jogador1;
 	protected Jogador jogador2;
 	
@@ -55,16 +55,16 @@ public class Caverna {
 		};	
 	}
 	
-	public void criarJogador(String idJogador) {
-		if(jogador1 == null) {
-			jogador1 = new Jogador();
-			jogador1.iniciar();
-			jogador1.assumirNome(idJogador);
-		}else {
-			jogador2 = new Jogador();
-			jogador2.iniciar();
-			jogador2.assumirNome(idJogador);
-		}
+	public void criarJogador1(String idJogador) {
+		this.jogador1 = new Jogador(idJogador, 1, 7, 3, true);
+	}
+	
+	public void criarJogador2(String idJogador) {
+		this.jogador2 = new Jogador(idJogador, 2, 0, 4, false);
+	}
+	
+	public Jogador getJogador(String idJogador) {
+		return jogador1.informarNome().equals(idJogador) ? jogador1 : jogador2;
 	}
 	
 	public void zerarPosicoesAfetadas() {
@@ -75,20 +75,10 @@ public class Caverna {
 		return (posicoes[(linha-1)][(coluna-1)]);
 	}
 	
-	public boolean verificarOcupada(int linha, int coluna) {
-		Posicao posicao = this.recuperarPosicao(linha, coluna);
-		return (posicao.informarOcupada());		
-	}
+
 	
 	public int tratarLance(Jogador jogador, int linha, int coluna) {
-		boolean ocupada = this.verificarOcupada(linha, coluna);
-		boolean lancePossivel = false;
-		boolean vez;
-		if(ocupada) {
-			return 11;
-		} else {
-			return 10;
-		}
+		return 10;
 	}
 	
 	public void finalizarPartida() {

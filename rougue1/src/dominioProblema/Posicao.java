@@ -2,23 +2,30 @@ package dominioProblema;
 
 public class Posicao {
 
-	protected Jogador ocupante;
+	protected int ocupante;
 
-	public boolean informarOcupada() {
-		return (ocupante != null);
+	public Posicao() {
+		this.ocupante = 0;
 	}
 
-	public Jogador informarOcupante() {
-		return ocupante;
+	public boolean verificarOcupada() {
+		return ocupante != 0;
+	}
+
+	public void setOcupacao(int simbolo) {
+		this.ocupante = simbolo;
 	}
 
 	public void esvaziar() {
-		ocupante = null;
-	}
-	
-	public void alocarPeao(Jogador umJogador) {
-		ocupante = umJogador;
+		ocupante = 0;
 	}
 
+	public void desativar() {
+		this.ocupante = 5;
+	}
+	
+	public int informarOcupante() {
+		return this.ocupante;
+	}
 
 }
