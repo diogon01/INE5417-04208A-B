@@ -19,7 +19,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import diablo2d.AtorJogador;
 import util.Recurso;
 
 public class InterfaceJogo extends JPanel {

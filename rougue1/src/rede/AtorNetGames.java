@@ -9,8 +9,8 @@ import br.ufsc.inf.leobr.cliente.exception.ArquivoMultiplayerException;
 import br.ufsc.inf.leobr.cliente.exception.JahConectadoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
-import diablo2d.AtorJogador;
 import dominioProblema.Caverna;
+import interfaceUsuario.AtorJogador;
 
 public class AtorNetGames implements OuvidorProxy {
 

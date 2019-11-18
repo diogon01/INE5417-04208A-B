@@ -1,8 +1,7 @@
-package diablo2d;
+package interfaceUsuario;
 
 
 import dominioProblema.Caverna;
-import interfaceUsuario.InterfaceJogo;
 import rede.AtorNetGames;
 
 public class AtorJogador {
