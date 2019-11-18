@@ -8,13 +8,13 @@ import rede.AtorNetGames;
 public class AtorJogador {
 	
 	protected Caverna tab;
-	protected AtorNetGames rede;
+	protected AtorNetGames atorRede;
 	protected InterfaceJogo janela;
 	protected String idusuario;
 	
 	public AtorJogador (InterfaceJogo jan){
 		super();
-		rede = new AtorNetGames(this);
+		atorRede = new AtorNetGames(this);
 		janela = jan;
 		tab = new Caverna();
 		tab.iniciar();
@@ -22,13 +22,13 @@ public class AtorJogador {
 	public String conectar() {
 		String servidor = janela.solicitarServidor();
 		String nome = janela.solicitarNome();
-		return rede.conectar(servidor, nome);
+		return atorRede.conectar(servidor, nome);
 	}
 	public String desconectar() {
-		return rede.desconectar();
+		return atorRede.desconectar();
 	}
 	public String iniciarPartida() {
-		return rede.iniciarPartida();
+		return atorRede.iniciarPartida();
 	}
 
 }
