@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 
 import util.Recurso;
 
-public class InterfaceJogo extends JPanel {
+public class InterfaceDiablo2d extends JPanel {
 
 	/**
 	 * 
@@ -43,7 +43,7 @@ public class InterfaceJogo extends JPanel {
 	/**
 	 * Iniciando a interface do jogo
 	 */
-	public InterfaceJogo() {
+	public InterfaceDiablo2d() {
 		System.out.println("[GUI][Gerenciador de exibição]: Tela do jogo criada!");
 		this.incializar();
 
@@ -172,6 +172,18 @@ public class InterfaceJogo extends JPanel {
 	public String solicitarNome() {
 		// TODO Auto-generated method stub
 		return JOptionPane.showInputDialog("Nome:");
+	}
+
+	public String obterIdJogador() {
+		String idJogador = ("jogador");
+		idJogador = JOptionPane.showInputDialog(this, ("Insira o nome do jogador"));
+		return idJogador;
+	}
+	
+	public String obterIdServidor() {
+		String idServidor = ("localhost");
+		idServidor = JOptionPane.showInputDialog(this, ("Insira o endere�o do servidor"), idServidor);
+		return idServidor;
 	}
 
 }

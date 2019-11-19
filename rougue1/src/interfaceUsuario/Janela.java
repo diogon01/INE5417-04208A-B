@@ -8,7 +8,7 @@ public class Janela {
 	private static final int ALTURA = 600;
 
 	private static JFrame janela;
-	private static InterfaceJogo screen;
+	private static InterfaceDiablo2d screen;
 
 	/**
 	 * Metodo que inicia o JFRAME
@@ -21,7 +21,7 @@ public class Janela {
 		janela.setBounds(20, 20, LARGURA, ALTURA);
 		janela.setResizable(false);
 
-		screen = new InterfaceJogo();
+		screen = new InterfaceDiablo2d();
 
 		janela.add(screen);
 

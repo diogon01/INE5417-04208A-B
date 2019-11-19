@@ -8,10 +8,10 @@ public class AtorJogador {
 	
 	protected Caverna tab;
 	protected AtorNetGames atorRede;
-	protected InterfaceJogo janela;
+	protected InterfaceDiablo2d janela;
 	protected String idusuario;
 	
-	public AtorJogador (InterfaceJogo jan){
+	public AtorJogador (InterfaceDiablo2d jan){
 		super();
 		atorRede = new AtorNetGames(this);
 		janela = jan;

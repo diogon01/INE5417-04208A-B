@@ -1,6 +1,8 @@
 package dominioProblema;
 
 
+import java.util.Vector;
+
 import logica.itens.Item;
 
 public class Caverna {
@@ -9,10 +11,22 @@ public class Caverna {
 	protected Posicao posicoes[][] = new Posicao[9][11];
 	protected Jogador jogador1;
 	protected Jogador jogador2;
-
 	protected boolean partidaEmAndamento;
 	protected boolean conectado;
+	protected Vector<Posicao> posicoesAfetadas = new Vector<Posicao>();
 
+	public boolean informarConectado() {
+		return conectado;
+	}
+	
+	public void estabelecerConectado(boolean valor) {
+		conectado = valor;
+	}
+	
+	public boolean informarEmAndamento() {
+		return partidaEmAndamento;
+	}
+	
 	public Caverna() {
 		// TODO Auto-generated constructor stub
 		for (int i = 0; i < posicoes.length; ++i) {
@@ -25,14 +39,7 @@ public class Caverna {
 
 	}
 
-	public boolean informarConectado() {
-		return conectado;
-	}
-
-	public void estabelecerConectado(boolean valor) {
-		conectado = valor;
-	}
-
+	
 	public int click(int linha, int coluna) {
 		boolean vez = jogador1.informarDaVez();
 		int resultado;
@@ -91,9 +98,6 @@ public class Caverna {
 		return null;
 	}
 
-	public boolean informarEmAndamento() {
-		return partidaEmAndamento;
-	}
 
 	public void setEmAndamento(boolean partidaEmAndamento) {
 		this.partidaEmAndamento = partidaEmAndamento;
