@@ -28,7 +28,7 @@ public class InterfaceDiablo2d extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private AtorJogador atorJogador;
+	private AtorJogador jogo;
 
 	public JFrame frame;
 	private final Action action_conectar = new SwingAction_Conectar();
@@ -50,7 +50,7 @@ public class InterfaceDiablo2d extends JPanel {
 	}
 
 	private void incializar() {
-		atorJogador = new AtorJogador(this);
+		jogo = new AtorJogador(this);
 
 		frame = new JFrame();
 		frame.setBounds(1, 1, 100, 100);
@@ -127,12 +127,11 @@ public class InterfaceDiablo2d extends JPanel {
 
 		public SwingAction_Conectar() {
 			putValue(NAME, "conectar");
-			putValue(SHORT_DESCRIPTION, "conectar a Netgames Server");
+			putValue(SHORT_DESCRIPTION, "Conectar no servidor");
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			String mensagem = atorJogador.conectar();
-			JOptionPane.showMessageDialog(null, mensagem);
+			conectar();
 		}
 	}
 
@@ -145,7 +144,7 @@ public class InterfaceDiablo2d extends JPanel {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			String mensagem = atorJogador.desconectar();
+			String mensagem = jogo.desconectar();
 			JOptionPane.showMessageDialog(null, mensagem);
 		}
 	}
@@ -159,31 +158,45 @@ public class InterfaceDiablo2d extends JPanel {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			String mensagem = atorJogador.iniciarPartida();
-			JOptionPane.showMessageDialog(null, mensagem);
+			conectar();
 		}
 	}
+	
+	public void conectar() {
+		int resultado = jogo.conectar();
+		this.notificarResultado(resultado);
+	}
+
 
 	public String solicitarServidor() {
 		// TODO Auto-generated method stub
 		return JOptionPane.showInputDialog(null, "Servidor:", "localhost");
 	}
 
-	public String solicitarNome() {
+	public String obterIdServidor() {
 		// TODO Auto-generated method stub
 		return JOptionPane.showInputDialog("Nome:");
 	}
 
-	public String obterIdJogador() {
-		String idJogador = ("jogador");
-		idJogador = JOptionPane.showInputDialog(this, ("Insira o nome do jogador"));
-		return idJogador;
+	
+	public void notificarResultado(int codigo) {
+		switch (codigo) {
+    		case 0:  JOptionPane.showMessageDialog(this, "Conexão efetuada com exito"); break;        	
+    		case 1:  JOptionPane.showMessageDialog(this, "Tentativa de conexão com conexão previamente estabelecida"); break;
+        	case 2:  JOptionPane.showMessageDialog(this, "Tentativa de conexao falhou"); break;
+        	case 3:  JOptionPane.showMessageDialog(this, "Desonexão efetuada com exito"); break;
+        	case 4:  JOptionPane.showMessageDialog(this, "Tentativa de desconexao sem conexao previamente estabelecida"); break;
+        	case 5:  JOptionPane.showMessageDialog(this, "Tentativa de desconexao falhou"); break;
+        	case 6:  JOptionPane.showMessageDialog(this, "Solicitação de inicio procedida com êxito"); break;
+        	case 7:  JOptionPane.showMessageDialog(this, "Tentativa de inicio sem conexao previamente estabelecida"); break;
+        	case 8:  JOptionPane.showMessageDialog(this, "Não é a sua vez"); break;
+        	case 9:  JOptionPane.showMessageDialog(this, "Partida encerrada"); break;
+        	case 10: JOptionPane.showMessageDialog(this, "Lance OK"); break;
+        	case 11: JOptionPane.showMessageDialog(this, "Posição ocupada"); break;
+        	case 12: JOptionPane.showMessageDialog(this, "Posição ilegal"); break;
+        	case 13: JOptionPane.showMessageDialog(this, "Partida corrente não interrompida"); break;
+		};
 	}
 	
-	public String obterIdServidor() {
-		String idServidor = ("localhost");
-		idServidor = JOptionPane.showInputDialog(this, ("Insira o endereço do servidor"), idServidor);
-		return idServidor;
-	}
 
 }

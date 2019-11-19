@@ -1,33 +1,47 @@
 package interfaceUsuario;
 
-
 import dominioProblema.Caverna;
 import rede.AtorNetGames;
 
 public class AtorJogador {
-	
+
 	protected Caverna tab;
-	protected AtorNetGames atorRede;
+	protected AtorNetGames rede;
 	protected InterfaceDiablo2d janela;
 	protected String idusuario;
-	
-	public AtorJogador (InterfaceDiablo2d jan){
+
+	public AtorJogador(InterfaceDiablo2d jan) {
 		super();
-		atorRede = new AtorNetGames(this);
+		rede = new AtorNetGames(this);
 		janela = jan;
 		tab = new Caverna();
 		tab.iniciar();
 	}
-	public String conectar() {
-		String servidor = janela.solicitarServidor();
-		String nome = janela.solicitarNome();
-		return atorRede.conectar(servidor, nome);
+
+	public int conectar() {
+		boolean conectado = tab.informarConectado();
+		if (!conectado) {
+			String servidor = janela.solicitarServidor();
+			idusuario = janela.obterIdServidor();
+			boolean exito = rede.conectar(servidor, idusuario);
+			if (exito) {
+				tab.estabelecerConectado(true);
+				return 0;
+			} else {
+				return 2;
+			}
+		} else {
+			return 1;
+		}
+
 	}
+
 	public String desconectar() {
-		return atorRede.desconectar();
+		return rede.desconectar();
 	}
+
 	public String iniciarPartida() {
-		return atorRede.iniciarPartida();
+		return rede.iniciarPartida();
 	}
 
 }

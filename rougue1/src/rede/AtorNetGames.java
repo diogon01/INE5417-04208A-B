@@ -30,21 +30,25 @@ public class AtorNetGames implements OuvidorProxy {
 		this.caverna = caverna;
 	}
 
-	public String conectar(String servidor, String nome) {
+	public boolean conectar(String servidor, String nome) {
 
 		try {
 			proxy.conectar(servidor, nome);
+			return true;
 		} catch (JahConectadoException e) {
 			e.printStackTrace();
-			return "Voce ja esta conectado";
+			//return "Voce ja esta conectado";
+			return false;
 		} catch (NaoPossivelConectarException e) {
 			e.printStackTrace();
-			return "Nao foi possivel conectar";
+			//return "Nao foi possivel conectar";
+			return false;
 		} catch (ArquivoMultiplayerException e) {
 			e.printStackTrace();
-			return "Voce esqueceu o arquivo de propriedades";
+			//return "Voce esqueceu o arquivo de propriedades";
+			return false;
 		}
-		return "Sucesso: conectado a Netgames Server";
+
 	}
 
 	public String desconectar() {
