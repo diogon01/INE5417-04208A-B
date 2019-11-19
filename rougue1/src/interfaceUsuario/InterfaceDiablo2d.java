@@ -158,12 +158,17 @@ public class InterfaceDiablo2d extends JPanel {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			conectar();
+			iniciarPartida();
 		}
 	}
 	
 	public void conectar() {
 		int resultado = jogo.conectar();
+		this.notificarResultado(resultado);
+	}
+	
+	public void iniciarPartida() {
+		int resultado = jogo.iniciarPartida();
 		this.notificarResultado(resultado);
 	}
 

@@ -36,12 +36,31 @@ public class AtorJogador {
 
 	}
 
-	public String desconectar() {
-		return rede.desconectar();
+	public int iniciarPartida() {
+		boolean conectado = false;
+		boolean interromper = false;
+		boolean emAndamento = tab.informarEmAndamento();
+		if (emAndamento) {
+			interromper = this.avaliarInterrupcao();
+		} else {
+			conectado = tab.informarConectado();
+		}
+		if (interromper || (!emAndamento && conectado)) {
+			rede.iniciarPartida();
+			return 6;
+		}
+		if (!conectado) {
+			return 7;
+		}
+		return 13;
 	}
 
-	public String iniciarPartida() {
-		return rede.iniciarPartida();
+	public boolean avaliarInterrupcao() {
+		return true;
+	}
+
+	public String desconectar() {
+		return rede.desconectar();
 	}
 
 }
