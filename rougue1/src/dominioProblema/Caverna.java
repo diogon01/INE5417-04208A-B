@@ -56,9 +56,9 @@ public class Caverna {
 	}
 
 	public void iniciar() {
-		for (int linha = 0; linha < 11; linha++) {
-			for (int coluna = 0; coluna < 11; coluna++) {
-				posicoes[linha][coluna] = new Posicao();
+		for (int linha = 1; linha < 9; linha++) {
+			for (int coluna = 1; coluna < 9; coluna++) {
+				posicoes[(linha -1)][(coluna -1)] = new Posicao();
 			}
 		}
 

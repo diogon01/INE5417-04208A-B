@@ -44,7 +44,7 @@ public class InterfaceDiablo2d extends JPanel {
 	 * Iniciando a interface do jogo
 	 */
 	public InterfaceDiablo2d() {
-		System.out.println("[GUI][Gerenciador de exibição]: Tela do jogo criada!");
+		System.out.println("[GUI][Gerenciador de exibibicao]: Tela do jogo criada!");
 		this.incializar();
 
 	}
