@@ -30,7 +30,7 @@ public class Caverna {
 		// TODO Auto-generated constructor stub
 		for (int i = 0; i < posicoes.length; ++i) {
 			for (int j = 0; j < posicoes.length; ++j) {
-				posicoes[i][j] = new Posicao();
+				//posicoes[i][j] = new Posicao();
 			}
 		}
 
@@ -58,7 +58,7 @@ public class Caverna {
 	public void iniciar() {
 		for (int linha = 1; linha < 9; linha++) {
 			for (int coluna = 1; coluna < 9; coluna++) {
-				posicoes[(linha -1)][(coluna -1)] = new Posicao();
+				//posicoes[(linha -1)][(coluna -1)] = new Posicao();
 			}
 		}
 
