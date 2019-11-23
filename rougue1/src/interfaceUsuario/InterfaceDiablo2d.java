@@ -38,6 +38,7 @@ public class InterfaceDiablo2d extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private AtorJogador jogo;
+	// Objeto caverna
 	private Caverna caverna;
 	// Posicoes da matriz 2D de LINHAS por COLUNAS
 	private Posicao[][] posicoes;
@@ -51,9 +52,6 @@ public class InterfaceDiablo2d extends JPanel {
 	// Barra de estatos de comunicacao do jogo
 	private JLabel barraDeEstatus;
 
-	protected JLabel player1;
-	protected JLabel player2;
-	protected JLabel[][] matriz;
 
 	// Total de linhas da grade do Jogo
 	private static final int linhas = 3;
