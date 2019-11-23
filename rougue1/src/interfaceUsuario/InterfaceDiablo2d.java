@@ -52,7 +52,6 @@ public class InterfaceDiablo2d extends JPanel {
 	// Barra de estatos de comunicacao do jogo
 	private JLabel barraDeEstatus;
 
-
 	// Total de linhas da grade do Jogo
 	private static final int linhas = 3;
 	// Total de colunas da grade do Jogo
@@ -83,6 +82,46 @@ public class InterfaceDiablo2d extends JPanel {
 	private final Action action_conectar = new SwingAction_Conectar();
 	private final Action action_desconectar = new SwingAction_Desconectar();
 	private final Action action_iniciar = new SwingAction_Iniciar();
+
+	private class SwingAction_Desconectar extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		public SwingAction_Desconectar() {
+			putValue(NAME, "desconectar");
+			putValue(SHORT_DESCRIPTION, "desconectar de Netgames Server");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			String mensagem = jogo.desconectar();
+			JOptionPane.showMessageDialog(null, mensagem);
+		}
+	}
+
+	private class SwingAction_Iniciar extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		public SwingAction_Iniciar() {
+			putValue(NAME, "iniciar partida");
+			putValue(SHORT_DESCRIPTION, "iniciar partida do seu jogo");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			iniciarPartida();
+		}
+	}
+
+	private class SwingAction_Conectar extends AbstractAction {
+		private static final long serialVersionUID = 1L;
+
+		public SwingAction_Conectar() {
+			putValue(NAME, "conectar");
+			putValue(SHORT_DESCRIPTION, "Conectar no servidor");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			conectar();
+		}
+	}
 
 	public InterfaceDiablo2d() {
 
@@ -120,8 +159,8 @@ public class InterfaceDiablo2d extends JPanel {
 				System.out.println(alvo);
 				if (estadoJogo == EstadoJogo.PARTIDA_EM_ANDAMENTO) {
 					if (linhaSelecionada >= 0 && linhaSelecionada < informarLinhas() && colunaSelecionada >= 0
-							&& colunaSelecionada < informaColunas()
-							&& caverna.informaPosicao(linhaSelecionada,colunaSelecionada).objeto == ObjetosCaverna.PISO) {
+							&& colunaSelecionada < informaColunas() && caverna.informaPosicao(linhaSelecionada,
+									colunaSelecionada).objeto == ObjetosCaverna.PISO) {
 						// Atribui a posicao a caverna no jogo
 						caverna.atribuirPosicao(linhaSelecionada, colunaSelecionada, jogadorLance);
 						// Atualiza o jogo
@@ -223,7 +262,6 @@ public class InterfaceDiablo2d extends JPanel {
 		}
 	}
 
-	/** Custom painting codes on this JPanel */
 	@Override
 	public void paintComponent(Graphics g) { // invoke via repaint()
 		super.paintComponent(g); // fill background
@@ -248,59 +286,6 @@ public class InterfaceDiablo2d extends JPanel {
 		} else if (this.estadoJogo == EstadoJogo.JOGADOR2_VENCEU) {
 			this.barraDeEstatus.setForeground(Color.RED);
 			this.barraDeEstatus.setText("'Jogador 2' ganhou! Clique para jogar novamente.");
-		}
-	}
-
-	/*
-	 * @Override protected void paintComponent(Graphics graphics) {
-	 * super.paintComponent(graphics);
-	 * 
-	 * graphics.setColor(Color.BLACK); graphics.fillRect(0, 0, Window.WIDTH,
-	 * Window.HEIGHT); graphics.setColor(Color.WHITE); graphics.fillRect(30, 30, 30,
-	 * 30); graphics.fillRect(30, 30, 50, 50); graphics.fillRect(50, 100, 40, 40);
-	 * 
-	 * Renderer.renderEntidade(GameLogic.getJogador(), graphics);
-	 * 
-	 * repaint(); }
-	 */
-
-	private class SwingAction_Conectar extends AbstractAction {
-		private static final long serialVersionUID = 1L;
-
-		public SwingAction_Conectar() {
-			putValue(NAME, "conectar");
-			putValue(SHORT_DESCRIPTION, "Conectar no servidor");
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			conectar();
-		}
-	}
-
-	private class SwingAction_Desconectar extends AbstractAction {
-		private static final long serialVersionUID = 1L;
-
-		public SwingAction_Desconectar() {
-			putValue(NAME, "desconectar");
-			putValue(SHORT_DESCRIPTION, "desconectar de Netgames Server");
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			String mensagem = jogo.desconectar();
-			JOptionPane.showMessageDialog(null, mensagem);
-		}
-	}
-
-	private class SwingAction_Iniciar extends AbstractAction {
-		private static final long serialVersionUID = 1L;
-
-		public SwingAction_Iniciar() {
-			putValue(NAME, "iniciar partida");
-			putValue(SHORT_DESCRIPTION, "iniciar partida do seu jogo");
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			iniciarPartida();
 		}
 	}
 
