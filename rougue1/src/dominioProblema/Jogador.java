@@ -9,6 +9,7 @@ public class Jogador {
 	private int linha;
 	private int coluna;
 	protected boolean daVez;
+	protected EstadoJogo estadoJogo;
 
 	public Jogador(String nome, int cor, int linha, int coluna, boolean daVez) {
 		super();

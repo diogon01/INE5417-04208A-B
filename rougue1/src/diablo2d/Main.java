@@ -3,7 +3,7 @@ package diablo2d;
 
 import javax.swing.JFrame;
 
-import dominioProblema.GameLogic;
+import dominioProblema.EscutarCaverna;
 import interfaceUsuario.InterfaceDiablo2d;
 
 
@@ -18,7 +18,8 @@ public class Main extends JFrame {
 	public static void main(String[] args) {
 		interfaceJogo = new InterfaceDiablo2d();
 		interfaceJogo.frame.setVisible(true);
-		GameLogic.escutarTeclado(interfaceJogo.frame);
+		
+		EscutarCaverna.escutarTeclado(interfaceJogo.frame);
 	}
 //		Recurso.init();
 //		Janela.criarJanela();

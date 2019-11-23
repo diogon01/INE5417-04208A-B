@@ -2,12 +2,13 @@ package dominioProblema;
 
 import java.util.Vector;
 
+import interfaceUsuario.InterfaceDiablo2d;
 import logica.itens.Item;
 
 public class Caverna {
 
 	// TODO: Vericar melhor as posicoes
-	protected Posicao posicoes[][] = new Posicao[9][11];
+	private Posicao[][] posicoes;
 	protected Jogador jogador1;
 	protected Jogador jogador2;
 	protected boolean partidaEmAndamento;
@@ -27,15 +28,7 @@ public class Caverna {
 	}
 
 	public Caverna() {
-		// TODO Auto-generated constructor stub
-		for (int i = 0; i < posicoes.length; ++i) {
-			for (int j = 0; j < posicoes.length; ++j) {
-				//posicoes[i][j] = new Posicao();
-			}
-		}
-
-		this.jogador1 = this.jogador2 = null;
-
+		zerarPosicoesAfetadas();
 	}
 
 	public int click(int linha, int coluna) {
@@ -58,7 +51,7 @@ public class Caverna {
 	public void iniciar() {
 		for (int linha = 1; linha < 9; linha++) {
 			for (int coluna = 1; coluna < 9; coluna++) {
-				//posicoes[(linha -1)][(coluna -1)] = new Posicao();
+				// posicoes[(linha -1)][(coluna -1)] = new Posicao();
 			}
 		}
 
@@ -77,31 +70,31 @@ public class Caverna {
 	}
 
 	public void zerarPosicoesAfetadas() {
-		for (int i = 0; i < 9; ++i) {
-			for (int j = 0; j < 11; ++j) {
-				posicoes[i][j].setOcupacao(0);
+		posicoes = new Posicao[InterfaceDiablo2d.informarLinhas()][InterfaceDiablo2d.informaColunas()];
+		for (int linha = 0; linha < InterfaceDiablo2d.informarLinhas(); ++linha) {
+			for (int coluna = 0; coluna < InterfaceDiablo2d.informaColunas(); ++coluna) {
+				// Acerta a posicao do Jogo
+				posicoes[linha][coluna] = new Posicao(linha, coluna);
 			}
 		}
 	}
 
-	public Posicao getPosicaoJogador(Jogador jogador) {
-		for (int i = 0; i < posicoes.length; ++i) {
-			for (int j = 0; j < posicoes.length; ++j) {
-				if (posicoes[i][j].informarOcupante() == jogador.getCor()) {
-					return posicoes[i][j];
-				}
-			}
-		}
-		return null;
-	}
+	/*
+	 * public Posicao getPosicaoJogador(ObjetosCaverna jogador) { for (int linha =
+	 * 0; linha < InterfaceDiablo2d.informarLinhas(); ++linha) { for (int coluna =
+	 * 0; coluna < InterfaceDiablo2d.informaColunas(); ++coluna) { // Acerta a
+	 * posicao do Jogo if (informaPosicao(linha, coluna).objeto = jogador) { return
+	 * posicoes[linha][coluna]; } } } return null; }
+	 */
 
 	public void setEmAndamento(boolean partidaEmAndamento) {
 		this.partidaEmAndamento = partidaEmAndamento;
 	}
 
 	public Posicao getPosicao(int linha, int coluna) {
-		return posicoes[linha][coluna];
+		return informaPosicao(linha, coluna);
 	}
+
 
 	public String getIdVencedor() {
 		return jogador1.informarVencedor() ? jogador1.informarNome() : jogador2.informarNome();
@@ -125,14 +118,20 @@ public class Caverna {
 	}
 
 	public int informarPlacar(Jogador jogador) {
-		Item[] itens = new Item[0];
-		return itens.length;
+		
+		return 0;
 	}
 
 	public void ativarPosicoesIniciais() {
-		zerarPosicoesAfetadas();
-		posicoes[0][4].setOcupacao(jogador2.getCor());
-		posicoes[7][3].setOcupacao(jogador1.getCor());
+		
+	}
+
+	public Posicao informaPosicao(int linha, int coluna) {
+		return posicoes[linha][coluna];
+	}
+
+	public void atribuirPosicao(int linha, int coluna, ObjetosCaverna objeto) {
+		this.posicoes[linha][coluna].objeto = objeto;
 	}
 
 }

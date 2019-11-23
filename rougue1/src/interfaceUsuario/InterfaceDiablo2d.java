@@ -43,41 +43,48 @@ public class InterfaceDiablo2d extends JPanel {
 	private Posicao[][] posicoes;
 
 	public JFrame frame;
-	private final Action action_conectar = new SwingAction_Conectar();
-	private final Action action_desconectar = new SwingAction_Desconectar();
-	private final Action action_iniciar = new SwingAction_Iniciar();
-	private GridLayout gridlayout;
+
+	// Estados em que o jodo pode assumir
+	private EstadoJogo estadoJogo;
+	// Objetos da caverna
+	private ObjetosCaverna jogadorLance;
+	// Barra de estatos de comunicacao do jogo
+	private JLabel barraDeEstatus;
 
 	protected JLabel player1;
 	protected JLabel player2;
 	protected JLabel[][] matriz;
 
-	// Constantes nomeadas para a caverna do Diablo2D
-	public static final int linhas = 3;
-	protected static final int colunas = 3;
-	protected static final String nomeDoJogo = "Diablo 2D";
-
-	// Tamanho da celula dentro do Layout Grid
+	// Total de linhas da grade do Jogo
+	private static final int linhas = 3;
+	// Total de colunas da grade do Jogo
+	private static final int colunas = 3;
+	// Tamanho que vai ocupar cada celula da grid
 	private static final int tamanhoDacelula = 100;
-	// Lagura da janela do jogo
-	protected static final int larguraDoJogo = informarTamanhoDacelula() * colunas;
-	// Altura da janela do jogo
-	protected static final int alturaDoJogo = informarTamanhoDacelula() * linhas;
-
+	// Largura da grade do Jogo
 	protected static final int larguraDaGrade = 8;
-	protected static final int GRID_WIDHT_HALF = larguraDaGrade / 2;
 
-	// Symbols (cross/nought) are displayed inside a cell, with padding from border
+	// Nome do jogo para aparecer na Janaela do Jogo
+	protected static final String nomeDoJogo = "Diablo 2D";
+	// Tamanho da celula dentro do Layout Grid
+
+	// Lagura da janela do jogo
+	protected static final int larguraDaCaverna = informarTamanhoDacelula() * informaColunas();
+	// Altura da janela do jogo
+	protected static final int alturaDaCaverna = informarTamanhoDacelula() * informarLinhas();
+
+	// Meio da Grade
+	protected static final int GRID_WIDHT_HALF = larguraDaGrade / 2;
+	// Espacamento interno da celula
 	private static final int paddingCelula = informarTamanhoDacelula() / 6;
+	// Tamanho da imagem do Jogador
 	private static final int tamanhoJogador = informarTamanhoDacelula() - informarPaddingCelula() * 2;
 	// pen's stroke width
 	private static final int larguraLinhaPreta = 8; // pen's stroke width
 
-	// O estado atual do jogo
-	private EstadoJogo estadoJogo;
-	// Objetos da caverna
-	private ObjetosCaverna jogador;
-	private JLabel barraDeEstatus;
+	private final Action action_conectar = new SwingAction_Conectar();
+	private final Action action_desconectar = new SwingAction_Desconectar();
+	private final Action action_iniciar = new SwingAction_Iniciar();
 
 	public InterfaceDiablo2d() {
 
@@ -98,7 +105,7 @@ public class InterfaceDiablo2d extends JPanel {
 		barraDeEstatus.setBackground(Color.LIGHT_GRAY);
 
 		frame.getContentPane().add(barraDeEstatus, BorderLayout.PAGE_END);
-		frame.getContentPane().setPreferredSize(new Dimension(larguraDoJogo, alturaDoJogo + 30));
+		frame.getContentPane().setPreferredSize(new Dimension(larguraDaCaverna, alturaDaCaverna + 30));
 
 		System.out.println("[MouseEvent][Click do Mouse]: Tela do jogo criada!");
 		frame.addMouseListener(new MouseAdapter() {
@@ -111,9 +118,21 @@ public class InterfaceDiablo2d extends JPanel {
 				int colunaSelecionada = mouseX / informarTamanhoDacelula();
 				String alvo = String.format("[Altura]:%s [Largura]:%s", mouseY, mouseX);
 				String grid = String.format("[Linha]:%s [Coluna]:%s", linhaSelecionada, colunaSelecionada);
-
 				System.out.println(grid);
 				System.out.println(alvo);
+				if (estadoJogo == EstadoJogo.PARTIDA_EM_ANDAMENTO) {
+					if (linhaSelecionada >= 0 && linhaSelecionada < informarLinhas() && colunaSelecionada >= 0
+							&& colunaSelecionada < informaColunas()
+							&& caverna.informaPosicao(linhaSelecionada,colunaSelecionada).objeto == ObjetosCaverna.PISO) {
+						// Atribui a posicao a caverna no jogo
+						caverna.atribuirPosicao(linhaSelecionada, colunaSelecionada, jogadorLance);
+						// Atualiza o jogo
+						atualizarJogo(jogadorLance, linhaSelecionada, colunaSelecionada);
+						// Switch player
+						jogadorLance = (jogadorLance == ObjetosCaverna.JOGADOR1) ? ObjetosCaverna.JOGADOR2
+								: ObjetosCaverna.JOGADOR1;
+					}
+				}
 				repaint();
 			}
 		});
@@ -122,6 +141,18 @@ public class InterfaceDiablo2d extends JPanel {
 		this.renderizar_menu();
 
 		frame.pack();
+	}
+
+	/**
+	 * Envia jogada para a objeto Caverna tratar a jogada
+	 * 
+	 * @param jogadorLance
+	 * @param linhaSelecionada
+	 * @param colunaSelecionada
+	 */
+	protected void atualizarJogo(ObjetosCaverna jogadorLance, int linhaSelecionada, int colunaSelecionada) {
+		// TODO Auto-generated method stub
+
 	}
 
 	private void incializar() {
@@ -174,20 +205,20 @@ public class InterfaceDiablo2d extends JPanel {
 	public void paint(Graphics g) {
 		// Desenhando as linhas da grade do jogo
 		g.setColor(Color.GRAY);
-		for (int linha = 1; linha < InterfaceDiablo2d.linhas; ++linha) {
+		for (int linha = 1; linha < InterfaceDiablo2d.informarLinhas(); ++linha) {
 			g.fillRoundRect(0, InterfaceDiablo2d.informarTamanhoDacelula() * linha - InterfaceDiablo2d.GRID_WIDHT_HALF,
-					InterfaceDiablo2d.larguraDoJogo - 1, InterfaceDiablo2d.larguraDaGrade,
+					InterfaceDiablo2d.larguraDaCaverna - 1, InterfaceDiablo2d.larguraDaGrade,
 					InterfaceDiablo2d.larguraDaGrade, InterfaceDiablo2d.larguraDaGrade);
 		}
-		for (int coluna = 1; coluna < InterfaceDiablo2d.colunas; ++coluna) {
+		for (int coluna = 1; coluna < InterfaceDiablo2d.informaColunas(); ++coluna) {
 			g.fillRoundRect(InterfaceDiablo2d.informarTamanhoDacelula() * coluna - InterfaceDiablo2d.GRID_WIDHT_HALF, 0,
-					InterfaceDiablo2d.larguraDaGrade, InterfaceDiablo2d.alturaDoJogo - 1,
+					InterfaceDiablo2d.larguraDaGrade, InterfaceDiablo2d.alturaDaCaverna - 1,
 					InterfaceDiablo2d.larguraDaGrade, InterfaceDiablo2d.larguraDaGrade);
 		}
 
 		// Desenha todas as células
-		for (int linha = 0; linha < InterfaceDiablo2d.linhas; ++linha) {
-			for (int coluna = 0; coluna < InterfaceDiablo2d.colunas; ++coluna) {
+		for (int linha = 0; linha < InterfaceDiablo2d.informarLinhas(); ++linha) {
+			for (int coluna = 0; coluna < InterfaceDiablo2d.informaColunas(); ++coluna) {
 				// ask the cell to paint itself
 				posicoes[linha][coluna].pintar(g);
 			}
@@ -203,9 +234,9 @@ public class InterfaceDiablo2d extends JPanel {
 		this.paint(g); // ask the game board to paint itself
 
 		// Print status-bar message
-		if (this.estadoJogo == EstadoJogo.JOGANDO) {
+		if (this.estadoJogo == EstadoJogo.PARTIDA_EM_ANDAMENTO) {
 			barraDeEstatus.setForeground(Color.BLACK);
-			if (this.jogador == ObjetosCaverna.JOGADOR1) {
+			if (this.jogadorLance == ObjetosCaverna.JOGADOR1) {
 				this.barraDeEstatus.setText("Vez do jogador 1");
 			} else {
 				this.barraDeEstatus.setText("Vez do jogador 2");
@@ -213,10 +244,10 @@ public class InterfaceDiablo2d extends JPanel {
 		} else if (this.estadoJogo == EstadoJogo.EMPATE) {
 			this.barraDeEstatus.setForeground(Color.RED);
 			this.barraDeEstatus.setText("É um empate! Clique para jogar novamente.");
-		} else if (this.estadoJogo == EstadoJogo.J1_VENCEU) {
+		} else if (this.estadoJogo == EstadoJogo.JOGADOR1_VENCEU) {
 			this.barraDeEstatus.setForeground(Color.RED);
 			barraDeEstatus.setText("'Jogador 1' ganhou! Clique para jogar novamente.");
-		} else if (this.estadoJogo == EstadoJogo.J2_VENCEU) {
+		} else if (this.estadoJogo == EstadoJogo.JOGADOR2_VENCEU) {
 			this.barraDeEstatus.setForeground(Color.RED);
 			this.barraDeEstatus.setText("'Jogador 2' ganhou! Clique para jogar novamente.");
 		}
@@ -357,6 +388,14 @@ public class InterfaceDiablo2d extends JPanel {
 
 	public static int informarTamanhoJogador() {
 		return tamanhoJogador;
+	}
+
+	public static int informaColunas() {
+		return colunas;
+	}
+
+	public static int informarLinhas() {
+		return linhas;
 	}
 
 }

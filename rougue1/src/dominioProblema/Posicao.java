@@ -9,7 +9,7 @@ import interfaceUsuario.InterfaceDiablo2d;
 
 public class Posicao {
 
-	ObjetosCaverna objeto;
+	public ObjetosCaverna objeto;
 
 	int linha, coluna;
 

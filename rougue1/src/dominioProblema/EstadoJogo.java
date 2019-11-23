@@ -1,5 +1,5 @@
 package dominioProblema;
 
 public enum EstadoJogo {
-	JOGANDO, EMPATE, J1_VENCEU, J2_VENCEU
+	PARTIDA_EM_ANDAMENTO, EMPATE, JOGADOR1_VENCEU, JOGADOR2_VENCEU
 }
