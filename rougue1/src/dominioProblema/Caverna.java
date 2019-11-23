@@ -1,5 +1,7 @@
 package dominioProblema;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.Vector;
 
 import interfaceUsuario.InterfaceDiablo2d;
@@ -49,12 +51,12 @@ public class Caverna {
 	}
 
 	public void iniciar() {
-		for (int linha = 1; linha < 9; linha++) {
-			for (int coluna = 1; coluna < 9; coluna++) {
-				// posicoes[(linha -1)][(coluna -1)] = new Posicao();
+		for (int linha = 0; linha < InterfaceDiablo2d.informarLinhas(); ++linha) {
+			for (int coluna = 0; coluna < InterfaceDiablo2d.informaColunas(); ++coluna) {
+				// limpa o conteúdo da célula
+				posicoes[linha][coluna].esvaziar();
 			}
 		}
-
 	}
 
 	public void criarJogador1(String idJogador) {
@@ -95,7 +97,6 @@ public class Caverna {
 		return informaPosicao(linha, coluna);
 	}
 
-
 	public String getIdVencedor() {
 		return jogador1.informarVencedor() ? jogador1.informarNome() : jogador2.informarNome();
 	}
@@ -118,12 +119,12 @@ public class Caverna {
 	}
 
 	public int informarPlacar(Jogador jogador) {
-		
+
 		return 0;
 	}
 
 	public void ativarPosicoesIniciais() {
-		
+
 	}
 
 	public Posicao informaPosicao(int linha, int coluna) {
@@ -132,6 +133,36 @@ public class Caverna {
 
 	public void atribuirPosicao(int linha, int coluna, ObjetosCaverna objeto) {
 		this.posicoes[linha][coluna].objeto = objeto;
+	}
+
+	public void pintar(Graphics g) {
+
+		// Pintando a linha preta
+		int linhas = InterfaceDiablo2d.informarLinhas();
+		int colunas = InterfaceDiablo2d.informaColunas();
+		int tamanhoDaCelula = InterfaceDiablo2d.informarTamanhoDacelula();
+		int larguraDaCaverna = InterfaceDiablo2d.informaLarguraDaCaverna();
+		int alturaDaCaverna = InterfaceDiablo2d.informarAlturaDaCaverna();
+		int larguraDaGrade = InterfaceDiablo2d.informarLarguraDaGrade();
+		int meioDaGrade = InterfaceDiablo2d.informarMeioDagrade();
+
+		g.setColor(Color.GRAY);
+		for (int linha = 1; linha < linhas; ++linha) {
+			g.fillRoundRect(0, tamanhoDaCelula * linha - meioDaGrade, larguraDaCaverna - 1, larguraDaGrade,
+					larguraDaGrade, larguraDaGrade);
+		}
+		for (int coluna = 1; coluna < colunas; ++coluna) {
+			g.fillRoundRect(tamanhoDaCelula * coluna - meioDaGrade, 0, larguraDaGrade, alturaDaCaverna - 1,
+					larguraDaGrade, larguraDaGrade);
+		}
+
+		// Desenha todas as células
+		for (int linha = 0; linha < linhas; ++linha) {
+			for (int coluna = 0; coluna < colunas; ++coluna) {
+				// Pintando a celula
+				posicoes[linha][coluna].pintar(g);
+			}
+		}
 	}
 
 }

@@ -59,19 +59,19 @@ public class InterfaceDiablo2d extends JPanel {
 	// Tamanho que vai ocupar cada celula da grid
 	private static final int tamanhoDacelula = 100;
 	// Largura da grade do Jogo
-	protected static final int larguraDaGrade = 8;
+	private static final int larguraDaGrade = 8;
 
 	// Nome do jogo para aparecer na Janaela do Jogo
 	protected static final String nomeDoJogo = "Diablo 2D";
 	// Tamanho da celula dentro do Layout Grid
 
 	// Lagura da janela do jogo
-	protected static final int larguraDaCaverna = informarTamanhoDacelula() * informaColunas();
+	private static final int larguraDaCaverna = informarTamanhoDacelula() * informaColunas();
 	// Altura da janela do jogo
-	protected static final int alturaDaCaverna = informarTamanhoDacelula() * informarLinhas();
+	private static final int alturaDaCaverna = informarTamanhoDacelula() * informarLinhas();
 
 	// Meio da Grade
-	protected static final int GRID_WIDHT_HALF = larguraDaGrade / 2;
+	private static final int meioDaGrade = informarLarguraDaGrade() / 2;
 	// Espacamento interno da celula
 	private static final int paddingCelula = informarTamanhoDacelula() / 6;
 	// Tamanho da imagem do Jogador
@@ -142,7 +142,7 @@ public class InterfaceDiablo2d extends JPanel {
 		barraDeEstatus.setBackground(Color.LIGHT_GRAY);
 
 		frame.getContentPane().add(barraDeEstatus, BorderLayout.PAGE_END);
-		frame.getContentPane().setPreferredSize(new Dimension(larguraDaCaverna, alturaDaCaverna + 30));
+		frame.getContentPane().setPreferredSize(new Dimension(informaLarguraDaCaverna(), informarAlturaDaCaverna() + 30));
 
 		System.out.println("[MouseEvent][Click do Mouse]: Tela do jogo criada!");
 		frame.addMouseListener(new MouseAdapter() {
@@ -243,14 +243,14 @@ public class InterfaceDiablo2d extends JPanel {
 		// Desenhando as linhas da grade do jogo
 		g.setColor(Color.GRAY);
 		for (int linha = 1; linha < InterfaceDiablo2d.informarLinhas(); ++linha) {
-			g.fillRoundRect(0, InterfaceDiablo2d.informarTamanhoDacelula() * linha - InterfaceDiablo2d.GRID_WIDHT_HALF,
-					InterfaceDiablo2d.larguraDaCaverna - 1, InterfaceDiablo2d.larguraDaGrade,
-					InterfaceDiablo2d.larguraDaGrade, InterfaceDiablo2d.larguraDaGrade);
+			g.fillRoundRect(0, InterfaceDiablo2d.informarTamanhoDacelula() * linha - InterfaceDiablo2d.informarMeioDagrade(),
+					InterfaceDiablo2d.informaLarguraDaCaverna() - 1, InterfaceDiablo2d.informarLarguraDaGrade(),
+					InterfaceDiablo2d.informarLarguraDaGrade(), InterfaceDiablo2d.informarLarguraDaGrade());
 		}
 		for (int coluna = 1; coluna < InterfaceDiablo2d.informaColunas(); ++coluna) {
-			g.fillRoundRect(InterfaceDiablo2d.informarTamanhoDacelula() * coluna - InterfaceDiablo2d.GRID_WIDHT_HALF, 0,
-					InterfaceDiablo2d.larguraDaGrade, InterfaceDiablo2d.alturaDaCaverna - 1,
-					InterfaceDiablo2d.larguraDaGrade, InterfaceDiablo2d.larguraDaGrade);
+			g.fillRoundRect(InterfaceDiablo2d.informarTamanhoDacelula() * coluna - InterfaceDiablo2d.informarMeioDagrade(), 0,
+					InterfaceDiablo2d.informarLarguraDaGrade(), InterfaceDiablo2d.informarAlturaDaCaverna() - 1,
+					InterfaceDiablo2d.informarLarguraDaGrade(), InterfaceDiablo2d.informarLarguraDaGrade());
 		}
 
 		// Desenha todas as células
@@ -379,6 +379,22 @@ public class InterfaceDiablo2d extends JPanel {
 
 	public static int informarLinhas() {
 		return linhas;
+	}
+
+	public static int informarMeioDagrade() {
+		return meioDaGrade;
+	}
+
+	public static int informaLarguraDaCaverna() {
+		return larguraDaCaverna;
+	}
+
+	public static int informarLarguraDaGrade() {
+		return larguraDaGrade;
+	}
+
+	public static int informarAlturaDaCaverna() {
+		return alturaDaCaverna;
 	}
 
 }

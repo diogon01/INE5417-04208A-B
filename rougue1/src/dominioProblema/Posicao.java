@@ -27,9 +27,8 @@ public class Posicao {
 	}
 
 	public void esvaziar() {
-		objeto = objeto.PISO;
+		objeto = objeto.VAZIO;
 		// Inicia com o piso do chao
-		this.esvaziar();
 	}
 
 	public boolean verificarOcupada() {
