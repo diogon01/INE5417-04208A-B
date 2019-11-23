@@ -10,12 +10,22 @@ import logica.itens.Item;
 public class Caverna {
 
 	// TODO: Vericar melhor as posicoes
-	private Posicao[][] posicoes;
+	public Posicao[][] posicoes;
 	protected Jogador jogador1;
 	protected Jogador jogador2;
 	protected boolean partidaEmAndamento;
 	protected boolean conectado;
+	protected EstadoJogo estadoJogo;
 	protected Vector<Posicao> posicoesAfetadas = new Vector<Posicao>();
+
+	// Pintando a linha preta
+	int linhas = InterfaceDiablo2d.informarLinhas();
+	int colunas = InterfaceDiablo2d.informaColunas();
+	int tamanhoDaCelula = InterfaceDiablo2d.informarTamanhoDacelula();
+	int larguraDaCaverna = InterfaceDiablo2d.informaLarguraDaCaverna();
+	int alturaDaCaverna = InterfaceDiablo2d.informarAlturaDaCaverna();
+	int larguraDaGrade = InterfaceDiablo2d.informarLarguraDaGrade();
+	int meioDaGrade = InterfaceDiablo2d.informarMeioDagrade();
 
 	public boolean informarConectado() {
 		return conectado;
@@ -26,7 +36,7 @@ public class Caverna {
 	}
 
 	public boolean informarEmAndamento() {
-		return partidaEmAndamento;
+		return estadoJogo == EstadoJogo.PARTIDA_EM_ANDAMENTO;
 	}
 
 	public Caverna() {
@@ -51,12 +61,21 @@ public class Caverna {
 	}
 
 	public void iniciar() {
-		for (int linha = 0; linha < InterfaceDiablo2d.informarLinhas(); ++linha) {
-			for (int coluna = 0; coluna < InterfaceDiablo2d.informaColunas(); ++coluna) {
+		for (int linha = 0; linha < linhas; ++linha) {
+			for (int coluna = 0; coluna < colunas; ++coluna) {
 				// limpa o conteúdo da célula
 				posicoes[linha][coluna].esvaziar();
 			}
 		}
+	}
+
+	public boolean jogoEmpatou() {
+		/*
+		 * for (int row = 0; row < GameMain.ROWS; ++row) { for (int col = 0; col <
+		 * GameMain.COLS; ++col) { if (cells[row][col].content == Seed.EMPTY) { return
+		 * false; // an empty seed found, not a draw, exit } } }
+		 */
+		return true; // no empty cell, it's a draw
 	}
 
 	public void criarJogador1(String idJogador) {
@@ -72,9 +91,9 @@ public class Caverna {
 	}
 
 	public void zerarPosicoesAfetadas() {
-		posicoes = new Posicao[InterfaceDiablo2d.informarLinhas()][InterfaceDiablo2d.informaColunas()];
-		for (int linha = 0; linha < InterfaceDiablo2d.informarLinhas(); ++linha) {
-			for (int coluna = 0; coluna < InterfaceDiablo2d.informaColunas(); ++coluna) {
+		posicoes = new Posicao[linhas][colunas];
+		for (int linha = 0; linha < linhas; ++linha) {
+			for (int coluna = 0; coluna < linhas; ++coluna) {
 				// Acerta a posicao do Jogo
 				posicoes[linha][coluna] = new Posicao(linha, coluna);
 			}
@@ -90,7 +109,7 @@ public class Caverna {
 	 */
 
 	public void setEmAndamento(boolean partidaEmAndamento) {
-		this.partidaEmAndamento = partidaEmAndamento;
+		this.estadoJogo = EstadoJogo.PARTIDA_EM_ANDAMENTO;
 	}
 
 	public Posicao getPosicao(int linha, int coluna) {
@@ -137,15 +156,6 @@ public class Caverna {
 
 	public void pintar(Graphics g) {
 
-		// Pintando a linha preta
-		int linhas = InterfaceDiablo2d.informarLinhas();
-		int colunas = InterfaceDiablo2d.informaColunas();
-		int tamanhoDaCelula = InterfaceDiablo2d.informarTamanhoDacelula();
-		int larguraDaCaverna = InterfaceDiablo2d.informaLarguraDaCaverna();
-		int alturaDaCaverna = InterfaceDiablo2d.informarAlturaDaCaverna();
-		int larguraDaGrade = InterfaceDiablo2d.informarLarguraDaGrade();
-		int meioDaGrade = InterfaceDiablo2d.informarMeioDagrade();
-
 		g.setColor(Color.GRAY);
 		for (int linha = 1; linha < linhas; ++linha) {
 			g.fillRoundRect(0, tamanhoDaCelula * linha - meioDaGrade, larguraDaCaverna - 1, larguraDaGrade,
@@ -163,6 +173,11 @@ public class Caverna {
 				posicoes[linha][coluna].pintar(g);
 			}
 		}
+	}
+
+	public boolean jogadorVenceu(ObjetosCaverna jogadorLance, int linhaSelecionada, int colunaSelecionada) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
