@@ -18,14 +18,14 @@ public class AtorNetGames implements OuvidorProxy {
 	protected Proxy proxy;
 	protected Caverna caverna;
 	protected AtorJogador interfaceGrafica;
-	
+
 	public AtorNetGames(AtorJogador interfaceGraf) {
 		super();
 		this.interfaceGrafica = interfaceGraf;
 		this.proxy = Proxy.getInstance();
 		proxy.addOuvinte(this);
 	}
-	
+
 	public void setCaverna(Caverna caverna) {
 		this.caverna = caverna;
 	}
@@ -37,28 +37,28 @@ public class AtorNetGames implements OuvidorProxy {
 			return true;
 		} catch (JahConectadoException e) {
 			e.printStackTrace();
-			//return "Voce ja esta conectado";
+			// return "Voce ja esta conectado";
 			return false;
 		} catch (NaoPossivelConectarException e) {
 			e.printStackTrace();
-			//return "Nao foi possivel conectar";
+			// return "Nao foi possivel conectar";
 			return false;
 		} catch (ArquivoMultiplayerException e) {
 			e.printStackTrace();
-			//return "Voce esqueceu o arquivo de propriedades";
+			// return "Voce esqueceu o arquivo de propriedades";
 			return false;
 		}
 
 	}
 
-	public String desconectar() {
+	public boolean desconectar() {
 		try {
 			proxy.desconectar();
+			return true;
 		} catch (NaoConectadoException e) {
 			e.printStackTrace();
-			return "Voce nao esta conectado";
+			return false;
 		}
-		return "Sucesso: desconectado de Netgames Server";
 	}
 
 	public String iniciarPartida() {
@@ -91,7 +91,6 @@ public class AtorNetGames implements OuvidorProxy {
 
 	@Override
 	public void receberJogada(Jogada jogada) {
-		
 
 	}
 

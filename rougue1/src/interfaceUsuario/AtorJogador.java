@@ -59,8 +59,20 @@ public class AtorJogador {
 		return true;
 	}
 
-	public String desconectar() {
-		return rede.desconectar();
+	public int desconectar() {
+		boolean conectado = tab.informarConectado();
+		if (conectado){
+			boolean exito = rede.desconectar();
+			if (exito){
+				tab.estabelecerConectado(false);
+				return 3;
+			}else{
+				return 5;
+			}			
+		}else{
+			return 4;
+		}			
 	}
+
 
 }

@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -54,13 +55,13 @@ public class InterfaceDiablo2d extends JPanel {
 	private JLabel barraDeEstatus;
 
 	// Total de linhas da grade do Jogo
-	private static final int linhas = 3;
+	private static final int linhas = 10;
 	// Total de colunas da grade do Jogo
-	private static final int colunas = 3;
+	private static final int colunas = 10;
 	// Tamanho que vai ocupar cada celula da grid
-	private static final int tamanhoDacelula = 100;
+	private static final int tamanhoDacelula = 32;
 	// Largura da grade do Jogo
-	private static final int larguraDaGrade = 8;
+	private static final int larguraDaGrade = 4;
 
 	// Nome do jogo para aparecer na Janaela do Jogo
 	protected static final String nomeDoJogo = "Diablo 2D";
@@ -80,52 +81,19 @@ public class InterfaceDiablo2d extends JPanel {
 	// pen's stroke width
 	private static final int larguraLinhaPreta = 8; // pen's stroke width
 
-	private final Action action_conectar = new SwingAction_Conectar();
-	private final Action action_desconectar = new SwingAction_Desconectar();
-	private final Action action_iniciar = new SwingAction_Iniciar();
+	private JMenuBar jMenuBar1 = null;
 
-	private class SwingAction_Desconectar extends AbstractAction {
-		private static final long serialVersionUID = 1L;
+	private JMenu menuJogo = null;
 
-		public SwingAction_Desconectar() {
-			putValue(NAME, "desconectar");
-			putValue(SHORT_DESCRIPTION, "desconectar de Netgames Server");
-		}
+	private JMenuItem jMenuItem1 = null;
 
-		public void actionPerformed(ActionEvent e) {
-			String mensagem = jogo.desconectar();
-			JOptionPane.showMessageDialog(null, mensagem);
-		}
-	}
+	private JMenuItem jMenuItem2 = null;
 
-	private class SwingAction_Iniciar extends AbstractAction {
-		private static final long serialVersionUID = 1L;
+	private JMenuItem jMenuItem3 = null;
 
-		public SwingAction_Iniciar() {
-			putValue(NAME, "iniciar partida");
-			putValue(SHORT_DESCRIPTION, "iniciar partida do seu jogo");
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			iniciarPartida();
-		}
-	}
-
-	private class SwingAction_Conectar extends AbstractAction {
-		private static final long serialVersionUID = 1L;
-
-		public SwingAction_Conectar() {
-			putValue(NAME, "conectar");
-			putValue(SHORT_DESCRIPTION, "Conectar no servidor");
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			conectar();
-		}
-	}
-
-	public InterfaceDiablo2d() {
-
+	public InterfaceDiablo2d(JFrame frameDiablo2D) {
+		posicoes = new Posicao[linhas][colunas];
+		System.out.println("[MouseEvent][Click do Mouse]: Escutando o clique do mouse!");
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -156,14 +124,6 @@ public class InterfaceDiablo2d extends JPanel {
 		});
 
 		System.out.println("[GUI][Gerenciador de exibibicao]: Tela do jogo criada!");
-		jogo = new AtorJogador(this);
-		caverna = new Caverna();
-
-		frame = new JFrame();
-		frame.setBounds(1, 1, 100, 100);
-		frame.setTitle(nomeDoJogo);
-		frame.getContentPane().setLayout(new BorderLayout());
-
 		// Configurando a barra de status (JLabel) para exibir a mensagem de status do
 		barraDeEstatus = new JLabel("     ");
 		barraDeEstatus.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 14));
@@ -171,19 +131,24 @@ public class InterfaceDiablo2d extends JPanel {
 		barraDeEstatus.setOpaque(true);
 		barraDeEstatus.setBackground(Color.LIGHT_GRAY);
 
-		frame.getContentPane().add(barraDeEstatus, BorderLayout.PAGE_END);
-		frame.getContentPane()
-				.setPreferredSize(new Dimension(informaLarguraDaCaverna(), informarAlturaDaCaverna() + 30));
+		setLayout(new BorderLayout());
+		// Adicinando a barra de estatus na borda
+		add(barraDeEstatus, BorderLayout.PAGE_END);
+		setPreferredSize(new Dimension(larguraDaCaverna, alturaDaCaverna + 30));
 
+		jMenuBar1 = new JMenuBar();
+		jMenuBar1.add(getMenu());
+		frameDiablo2D.setJMenuBar(jMenuBar1);
+
+		// account for statusBar in height
+
+		// Iniciando o ator jogador
+		jogo = new AtorJogador(this);
+		// Iniciando a Caverna
+		caverna = new Caverna();
+
+		// Inicializa as variáveis do jogo
 		this.incializar();
-		this.renderizar_menu();
-
-	}
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g); // **MUST** call this
-		System.out.println("Entrou no Rapant");
 
 	}
 
@@ -243,69 +208,65 @@ public class InterfaceDiablo2d extends JPanel {
 
 	}
 
-	private void renderizar_menu() {
-		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
+	private JMenu getMenu() {
+		if (menuJogo == null) {
+			menuJogo = new JMenu();
+			menuJogo.setText("Jogo");
+			menuJogo.setBounds(new Rectangle(1, 0, 57, 21));
+			menuJogo.add(getJMenuItem1());
+			menuJogo.add(getJMenuItem2());
+			menuJogo.add(getJMenuItem3());
 
-		JMenu mnNewMenu = new JMenu("Jogo");
-		menuBar.add(mnNewMenu);
-
-		JMenuItem mntmConectar = new JMenuItem("conectar");
-		mntmConectar.setAction(action_conectar);
-		mnNewMenu.add(mntmConectar);
-
-		JMenuItem mntmDesconectar = new JMenuItem("desconectar");
-		mntmDesconectar.setAction(action_desconectar);
-		mnNewMenu.add(mntmDesconectar);
-
-		JMenuItem mntmIniciarPartida = new JMenuItem("iniciar partida");
-		mntmIniciarPartida.setAction(action_iniciar);
-		mnNewMenu.add(mntmIniciarPartida);
+		}
+		return menuJogo;
 	}
 
-	public void paint(Graphics g) {
-		// Desenhando as linhas da grade do jogo
-		g.setColor(Color.GRAY);
-
-		for (int linha = 1; linha < linhas; ++linha) {
-			g.fillRoundRect(0, tamanhoDacelula * linha - meioDaGrade, larguraDaCaverna - 1, larguraDaGrade,
-					larguraDaGrade, larguraDaGrade);
+	private JMenuItem getJMenuItem1() {
+		if (jMenuItem1 == null) {
+			jMenuItem1 = new JMenuItem();
+			jMenuItem1.setText("iniciar nova partida");
+			jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					iniciarPartida();
+				}
+			});
 		}
-		for (int coluna = 1; coluna < colunas; ++coluna) {
-			g.fillRoundRect(tamanhoDacelula * coluna - meioDaGrade, 0, larguraDaGrade, alturaDaCaverna - 1,
-					larguraDaGrade, larguraDaGrade);
-		}
-
-		// Desenha todas as células
-		for (int linha = 0; linha < linhas; ++linha) {
-			for (int coluna = 0; coluna < colunas; ++coluna) {
-				// ask the cell to paint itself
-				posicoes[linha][coluna].pintar(g);
-			}
-		}
+		return jMenuItem1;
 	}
 
-	/*
-	 * @Override public void paintComponent(Graphics g) { // invoke via repaint()
-	 * super.paintComponent(g); // preencher fundo // set its background color
-	 * setBackground(Color.WHITE); // ask the game board to paint itself
-	 * this.paint(g); // Print status-bar message if (this.estadoJogo ==
-	 * EstadoJogo.PARTIDA_EM_ANDAMENTO) { barraDeEstatus.setForeground(Color.BLACK);
-	 * if (this.jogadorLance == ObjetosCaverna.JOGADOR1) {
-	 * this.barraDeEstatus.setText("Vez do jogador 1"); } else {
-	 * this.barraDeEstatus.setText("Vez do jogador 2"); } } else if (this.estadoJogo
-	 * == EstadoJogo.EMPATE) { this.barraDeEstatus.setForeground(Color.RED);
-	 * this.barraDeEstatus.setText("É um empate! Clique para jogar novamente."); }
-	 * else if (this.estadoJogo == EstadoJogo.JOGADOR1_VENCEU) {
-	 * this.barraDeEstatus.setForeground(Color.RED);
-	 * barraDeEstatus.setText("'Jogador 1' ganhou! Clique para jogar novamente."); }
-	 * else if (this.estadoJogo == EstadoJogo.JOGADOR2_VENCEU) {
-	 * this.barraDeEstatus.setForeground(Color.RED); this.barraDeEstatus.
-	 * setText("'Jogador 2' ganhou! Clique para jogar novamente."); } }
-	 */
+	private JMenuItem getJMenuItem2() {
+		if (jMenuItem2 == null) {
+			jMenuItem2 = new JMenuItem();
+			jMenuItem2.setText("conectar");
+			jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					conectar();
+				}
+			});
+		}
+		return jMenuItem2;
+	}
+
+	private JMenuItem getJMenuItem3() {
+		if (jMenuItem3 == null) {
+			jMenuItem3 = new JMenuItem();
+			jMenuItem3.setText("desconectar");
+			jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					desconectar();
+				}
+			});
+		}
+		return jMenuItem3;
+	}
 
 	public void conectar() {
 		int resultado = jogo.conectar();
+		this.notificarResultado(resultado);
+	}
+
+	public void desconectar() {
+		int resultado = jogo.desconectar();
 		this.notificarResultado(resultado);
 	}
 
@@ -412,4 +373,16 @@ public class InterfaceDiablo2d extends JPanel {
 		return alturaDaCaverna;
 	}
 
+	/** Custom painting codes on this JPanel */
+	@Override
+	public void paintComponent(Graphics g) {
+		// Invocado via repaint ()
+		System.out.println("[Atualizando][Pintando a Tela]: Pintar as posicoes!");
+		super.paintComponent(g);
+		// preencher background de branco
+		setBackground(Color.WHITE); // set its background color
+		// Envia mensagem para pintar o tabuleiro
+		caverna.pintar(g);
+
+	}
 }
