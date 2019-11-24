@@ -53,7 +53,8 @@ public class InterfaceDiablo2d extends JPanel {
 	private ObjetosCaverna jogadorLance;
 	// Barra de estatos de comunicacao do jogo
 	private JLabel barraDeEstatus;
-
+	// Barra que mostra o placar do jogo:
+	private JLabel barraDePlacar;
 	// Total de linhas da grade do Jogo
 	private static final int linhas = 10;
 	// Total de colunas da grade do Jogo
@@ -61,7 +62,7 @@ public class InterfaceDiablo2d extends JPanel {
 	// Tamanho que vai ocupar cada celula da grid
 	private static final int tamanhoDacelula = 32;
 	// Largura da grade do Jogo
-	private static final int larguraDaGrade = 4;
+	private static final int larguraDaGrade = 2;
 
 	// Nome do jogo para aparecer na Janaela do Jogo
 	protected static final String nomeDoJogo = "Diablo 2D";
@@ -130,10 +131,17 @@ public class InterfaceDiablo2d extends JPanel {
 		barraDeEstatus.setBorder(BorderFactory.createEmptyBorder(2, 5, 4, 5));
 		barraDeEstatus.setOpaque(true);
 		barraDeEstatus.setBackground(Color.LIGHT_GRAY);
+		
+		barraDePlacar = new JLabel("Placar:     ");
+		barraDePlacar.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 14));
+		barraDePlacar.setBorder(BorderFactory.createEmptyBorder(2, 5, 4, 5));
+		barraDePlacar.setOpaque(true);
+		barraDePlacar.setBackground(Color.LIGHT_GRAY);
 
 		setLayout(new BorderLayout());
 		// Adicinando a barra de estatus na borda
 		add(barraDeEstatus, BorderLayout.PAGE_END);
+		add(barraDePlacar, BorderLayout.PAGE_START);
 		setPreferredSize(new Dimension(larguraDaCaverna, alturaDaCaverna + 30));
 
 		jMenuBar1 = new JMenuBar();
@@ -178,7 +186,8 @@ public class InterfaceDiablo2d extends JPanel {
 				caverna.posicoes[linha][coluna].objeto = ObjetosCaverna.VAZIO;
 			}
 		}
-		// Pronto para jogar
+
+		// Muda o estado de jogo para em andamento
 		estadoJogo = EstadoJogo.PARTIDA_EM_ANDAMENTO;
 		// Jogador 1 joga primeiro inicialmente
 		jogadorLance = ObjetosCaverna.JOGADOR1;
@@ -379,10 +388,29 @@ public class InterfaceDiablo2d extends JPanel {
 		// Invocado via repaint ()
 		System.out.println("[Atualizando][Pintando a Tela]: Pintar as posicoes!");
 		super.paintComponent(g);
+
 		// preencher background de branco
 		setBackground(Color.WHITE); // set its background color
 		// Envia mensagem para pintar o tabuleiro
 		caverna.pintar(g);
 
+		// Print status-bar message
+		if (estadoJogo == EstadoJogo.PARTIDA_EM_ANDAMENTO) {
+			barraDeEstatus.setForeground(Color.BLACK);
+			if (jogadorLance == ObjetosCaverna.JOGADOR1) {
+				barraDeEstatus.setText("É o turno do jogador1: Paladino");
+			} else {
+				barraDeEstatus.setText("É o turno do jogador2: Mago");
+			}
+		} else if (estadoJogo == EstadoJogo.EMPATE) {
+			barraDeEstatus.setForeground(Color.RED);
+			barraDeEstatus.setText("É um empate! Clique para jogar novamente.");
+		} else if (estadoJogo == EstadoJogo.JOGADOR1_VENCEU) {
+			barraDeEstatus.setForeground(Color.RED);
+			barraDeEstatus.setText("Jogador 1' ganhou! Clique para jogar novamente.");
+		} else if (estadoJogo == EstadoJogo.JOGADOR2_VENCEU) {
+			barraDeEstatus.setForeground(Color.RED);
+			barraDeEstatus.setText("'Jogador 2' ganhou! Clique para jogar novamente.");
+		}
 	}
 }

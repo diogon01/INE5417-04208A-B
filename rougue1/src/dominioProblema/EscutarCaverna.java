@@ -13,18 +13,17 @@ import util.Recurso;
 
 public class EscutarCaverna {
 
-
 	public static void iniciarJogo() {
 
 	}
 
-	
 	public static void escutarMouse(JFrame caverna) {
-		
+
 	}
 
 	/**
 	 * Recbe a interface usuario e esculta qualquer movimento do teclado
+	 * 
 	 * @param caverna
 	 */
 	public static void escutarTeclado(JFrame caverna) {
@@ -33,6 +32,7 @@ public class EscutarCaverna {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				String alvo = String.format("[KeyListener][Tecla Pressionada]: Tecla presionada:%s", e.getKeyCode());
+				caverna.repaint();
 				System.out.println(alvo);
 				if (e.getKeyCode() == KeyEvent.VK_UP) {
 					JOptionPane.showMessageDialog(null, "seta para cima pressionada");
