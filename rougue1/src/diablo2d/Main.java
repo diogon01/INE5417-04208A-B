@@ -1,11 +1,10 @@
 package diablo2d;
 
-
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import dominioProblema.EscutarCaverna;
 import interfaceUsuario.InterfaceDiablo2d;
-
 
 public class Main extends JFrame {
 
@@ -16,10 +15,14 @@ public class Main extends JFrame {
 	private static InterfaceDiablo2d interfaceJogo;
 
 	public static void main(String[] args) {
-		interfaceJogo = new InterfaceDiablo2d();
-		interfaceJogo.frame.setVisible(true);
-		
-		EscutarCaverna.escutarTeclado(interfaceJogo.frame);
+
+		SwingUtilities.invokeLater(() -> {
+			interfaceJogo = new InterfaceDiablo2d();
+			interfaceJogo.frame.setVisible(true);
+			interfaceJogo.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			interfaceJogo.frame.pack();
+			EscutarCaverna.escutarTeclado(interfaceJogo.frame);
+		});
 	}
 //		Recurso.init();
 //		Janela.criarJanela();

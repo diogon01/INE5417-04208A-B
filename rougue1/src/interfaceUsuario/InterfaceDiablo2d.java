@@ -26,6 +26,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import dominioProblema.Caverna;
 import dominioProblema.EstadoJogo;
@@ -66,16 +67,16 @@ public class InterfaceDiablo2d extends JPanel {
 	// Tamanho da celula dentro do Layout Grid
 
 	// Lagura da janela do jogo
-	private static final int larguraDaCaverna = informarTamanhoDacelula() * informaColunas();
+	private static final int larguraDaCaverna = tamanhoDacelula * colunas;
 	// Altura da janela do jogo
-	private static final int alturaDaCaverna = informarTamanhoDacelula() * informarLinhas();
+	private static final int alturaDaCaverna = tamanhoDacelula * linhas;
 
 	// Meio da Grade
-	private static final int meioDaGrade = informarLarguraDaGrade() / 2;
+	private static final int meioDaGrade = larguraDaGrade / 2;
 	// Espacamento interno da celula
-	private static final int paddingCelula = informarTamanhoDacelula() / 6;
+	private static final int paddingCelula = tamanhoDacelula / 6;
 	// Tamanho da imagem do Jogador
-	private static final int tamanhoJogador = informarTamanhoDacelula() - informarPaddingCelula() * 2;
+	private static final int tamanhoJogador = tamanhoDacelula - paddingCelula * 2;
 	// pen's stroke width
 	private static final int larguraLinhaPreta = 8; // pen's stroke width
 
@@ -125,36 +126,14 @@ public class InterfaceDiablo2d extends JPanel {
 
 	public InterfaceDiablo2d() {
 
-		System.out.println("[GUI][Gerenciador de exibibicao]: Tela do jogo criada!");
-		jogo = new AtorJogador(this);
-		caverna = new Caverna();
-
-		frame = new JFrame();
-		frame.setBounds(1, 1, 100, 100);
-		frame.setTitle(nomeDoJogo);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BorderLayout());
-
-		// Configurando a barra de status (JLabel) para exibir a mensagem de status do
-		barraDeEstatus = new JLabel("     ");
-		barraDeEstatus.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 14));
-		barraDeEstatus.setBorder(BorderFactory.createEmptyBorder(2, 5, 4, 5));
-		barraDeEstatus.setOpaque(true);
-		barraDeEstatus.setBackground(Color.LIGHT_GRAY);
-
-		frame.getContentPane().add(barraDeEstatus, BorderLayout.PAGE_END);
-		frame.getContentPane()
-				.setPreferredSize(new Dimension(informaLarguraDaCaverna(), informarAlturaDaCaverna() + 30));
-
-		System.out.println("[MouseEvent][Click do Mouse]: Escutando o clique do mouse!");
-		frame.addMouseListener(new MouseAdapter() {
+		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int mouseX = e.getX();
 				int mouseY = e.getY();
 				// Get na linha e na coluna da caverna
-				int linhaSelecionada = mouseY / informarTamanhoDacelula();
-				int colunaSelecionada = mouseX / informarTamanhoDacelula();
+				int linhaSelecionada = mouseY / tamanhoDacelula;
+				int colunaSelecionada = mouseX / tamanhoDacelula;
 				String alvo = String.format("[Altura]:%s [Largura]:%s", mouseY, mouseX);
 				String grid = String.format("[Linha]:%s [Coluna]:%s", linhaSelecionada, colunaSelecionada);
 				System.out.println(grid);
@@ -176,10 +155,36 @@ public class InterfaceDiablo2d extends JPanel {
 			}
 		});
 
+		System.out.println("[GUI][Gerenciador de exibibicao]: Tela do jogo criada!");
+		jogo = new AtorJogador(this);
+		caverna = new Caverna();
+
+		frame = new JFrame();
+		frame.setBounds(1, 1, 100, 100);
+		frame.setTitle(nomeDoJogo);
+		frame.getContentPane().setLayout(new BorderLayout());
+
+		// Configurando a barra de status (JLabel) para exibir a mensagem de status do
+		barraDeEstatus = new JLabel("     ");
+		barraDeEstatus.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 14));
+		barraDeEstatus.setBorder(BorderFactory.createEmptyBorder(2, 5, 4, 5));
+		barraDeEstatus.setOpaque(true);
+		barraDeEstatus.setBackground(Color.LIGHT_GRAY);
+
+		frame.getContentPane().add(barraDeEstatus, BorderLayout.PAGE_END);
+		frame.getContentPane()
+				.setPreferredSize(new Dimension(informaLarguraDaCaverna(), informarAlturaDaCaverna() + 30));
+
 		this.incializar();
 		this.renderizar_menu();
 
-		frame.pack();
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g); // **MUST** call this
+		System.out.println("Entrou no Rapant");
+
 	}
 
 	/**
@@ -280,34 +285,24 @@ public class InterfaceDiablo2d extends JPanel {
 		}
 	}
 
-	@Override
-	public void paintComponent(Graphics g) {
-		// invoke via repaint()
-		super.paintComponent(g);
-		// preencher fundo
-		// set its background color
-		setBackground(Color.WHITE);
-		// ask the game board to paint itself
-		this.paint(g);
-		// Print status-bar message
-		if (this.estadoJogo == EstadoJogo.PARTIDA_EM_ANDAMENTO) {
-			barraDeEstatus.setForeground(Color.BLACK);
-			if (this.jogadorLance == ObjetosCaverna.JOGADOR1) {
-				this.barraDeEstatus.setText("Vez do jogador 1");
-			} else {
-				this.barraDeEstatus.setText("Vez do jogador 2");
-			}
-		} else if (this.estadoJogo == EstadoJogo.EMPATE) {
-			this.barraDeEstatus.setForeground(Color.RED);
-			this.barraDeEstatus.setText("É um empate! Clique para jogar novamente.");
-		} else if (this.estadoJogo == EstadoJogo.JOGADOR1_VENCEU) {
-			this.barraDeEstatus.setForeground(Color.RED);
-			barraDeEstatus.setText("'Jogador 1' ganhou! Clique para jogar novamente.");
-		} else if (this.estadoJogo == EstadoJogo.JOGADOR2_VENCEU) {
-			this.barraDeEstatus.setForeground(Color.RED);
-			this.barraDeEstatus.setText("'Jogador 2' ganhou! Clique para jogar novamente.");
-		}
-	}
+	/*
+	 * @Override public void paintComponent(Graphics g) { // invoke via repaint()
+	 * super.paintComponent(g); // preencher fundo // set its background color
+	 * setBackground(Color.WHITE); // ask the game board to paint itself
+	 * this.paint(g); // Print status-bar message if (this.estadoJogo ==
+	 * EstadoJogo.PARTIDA_EM_ANDAMENTO) { barraDeEstatus.setForeground(Color.BLACK);
+	 * if (this.jogadorLance == ObjetosCaverna.JOGADOR1) {
+	 * this.barraDeEstatus.setText("Vez do jogador 1"); } else {
+	 * this.barraDeEstatus.setText("Vez do jogador 2"); } } else if (this.estadoJogo
+	 * == EstadoJogo.EMPATE) { this.barraDeEstatus.setForeground(Color.RED);
+	 * this.barraDeEstatus.setText("É um empate! Clique para jogar novamente."); }
+	 * else if (this.estadoJogo == EstadoJogo.JOGADOR1_VENCEU) {
+	 * this.barraDeEstatus.setForeground(Color.RED);
+	 * barraDeEstatus.setText("'Jogador 1' ganhou! Clique para jogar novamente."); }
+	 * else if (this.estadoJogo == EstadoJogo.JOGADOR2_VENCEU) {
+	 * this.barraDeEstatus.setForeground(Color.RED); this.barraDeEstatus.
+	 * setText("'Jogador 2' ganhou! Clique para jogar novamente."); } }
+	 */
 
 	public void conectar() {
 		int resultado = jogo.conectar();
