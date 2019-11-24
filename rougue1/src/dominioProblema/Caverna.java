@@ -79,11 +79,18 @@ public class Caverna {
 	 */
 	public void iniciarMapa() {
 		System.out.println("[Caverna][iniciarMapa][Piso]: Adicionando piso ao mapa");
-		for (int linha = 1; linha < (linhas - 1); ++linha) {
-			for (int coluna = 1; coluna < (colunas - 1); ++coluna) {
-				String alvo = String.format("[AtribuirPosicao][Piso]:[Linha]:%s [Coluna]:%s", linha, coluna);
+		for (int linha = 0; linha < linhas; ++linha) {
+			String alvo = null;
+			for (int coluna = 0; coluna < colunas; ++coluna) {
+				if (linha > 0 && linha < (linhas - 1) && (coluna > 0 && coluna < (colunas - 1))) {
+					alvo = String.format("[AtribuirPosicao][PISO]:[Linha]:%s [Coluna]:%s", linha, coluna);
+					this.atribuirPosicao(linha, coluna, ObjetosCaverna.PISO);
+				} else {
+					alvo = String.format("[AtribuirPosicao][PAREDE]:[Linha]:%s [Coluna]:%s", linha, coluna);
+					this.atribuirPosicao(linha, coluna, ObjetosCaverna.PAREDE);
+				}
 				System.out.println(alvo);
-				this.atribuirPosicao(linha, coluna, ObjetosCaverna.PISO);
+
 			}
 		}
 	}

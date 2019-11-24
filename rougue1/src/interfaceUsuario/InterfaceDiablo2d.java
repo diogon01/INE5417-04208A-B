@@ -218,14 +218,7 @@ public class InterfaceDiablo2d extends JPanel {
 	}
 	
 	public void iniciarMapa() {
-		System.out.println("[Caverna][iniciarMapa][Piso]: Adicionando piso ao mapa");
-		for (int linha = 1; linha < (linhas - 1); ++linha) {
-			for (int coluna = 1; coluna < (colunas - 1); ++coluna) {
-				String alvo = String.format("[AtribuirPosicao][Piso]:[Linha]:%s [Coluna]:%s", linha, coluna);
-				System.out.println(alvo);
-				caverna.atribuirPosicao(linha, coluna, ObjetosCaverna.PISO);
-			}
-		}
+		caverna.iniciarMapa();
 	}
 
 	private JMenu getMenu() {
