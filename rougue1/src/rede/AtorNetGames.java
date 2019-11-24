@@ -73,7 +73,7 @@ public class AtorNetGames implements OuvidorProxy {
 
 	@Override
 	public void iniciarNovaPartida(Integer posicao) {
-		JOptionPane.showMessageDialog(null, "Recebida mensagem de nova partida");
+		interfaceGrafica.tratarIniciarPartida(posicao);
 
 	}
 

@@ -16,6 +16,7 @@ public class Caverna {
 	protected boolean partidaEmAndamento;
 	protected boolean conectado;
 	protected EstadoJogo estadoJogo;
+	private EstadoServidorNetgames estadoServidorNG;
 	protected Vector<Posicao> posicoesAfetadas = new Vector<Posicao>();
 
 	// Pintando a linha preta
@@ -28,11 +29,15 @@ public class Caverna {
 	int meioDaGrade = InterfaceDiablo2d.informarMeioDagrade();
 
 	public boolean informarConectado() {
-		return conectado;
+		return estadoServidorNG == EstadoServidorNetgames.CONECTADO;
 	}
 
-	public void estabelecerConectado(boolean valor) {
-		conectado = valor;
+	public void estabelecerConectado() {
+		this.estadoServidorNG = EstadoServidorNetgames.CONECTADO;
+	}
+
+	public void estabelecerDesconectado() {
+		this.estadoServidorNG = EstadoServidorNetgames.DESCONECTADO;
 	}
 
 	public boolean informarEmAndamento() {
@@ -69,6 +74,20 @@ public class Caverna {
 		}
 	}
 
+	/**
+	 * Metodo que inicia as posicoes do mapa
+	 */
+	public void iniciarMapa() {
+		System.out.println("[Caverna][iniciarMapa][Piso]: Adicionando piso ao mapa");
+		for (int linha = 1; linha < (linhas - 1); ++linha) {
+			for (int coluna = 1; coluna < (colunas - 1); ++coluna) {
+				String alvo = String.format("[AtribuirPosicao][Piso]:[Linha]:%s [Coluna]:%s", linha, coluna);
+				System.out.println(alvo);
+				this.atribuirPosicao(linha, coluna, ObjetosCaverna.PISO);
+			}
+		}
+	}
+
 	public boolean jogoEmpatou() {
 		/*
 		 * for (int row = 0; row < GameMain.ROWS; ++row) { for (int col = 0; col <
@@ -76,14 +95,6 @@ public class Caverna {
 		 * false; // an empty seed found, not a draw, exit } } }
 		 */
 		return false; // no empty cell, it's a draw
-	}
-
-	public void criarJogador1(String idJogador) {
-		this.jogador1 = new Jogador(idJogador, 1, 7, 3, true);
-	}
-
-	public void criarJogador2(String idJogador) {
-		this.jogador2 = new Jogador(idJogador, 2, 0, 4, false);
 	}
 
 	public Jogador getJogador(String idJogador) {
@@ -178,6 +189,36 @@ public class Caverna {
 	public boolean jogadorVenceu(ObjetosCaverna jogadorLance, int linhaSelecionada, int colunaSelecionada) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public EstadoServidorNetgames informarEstadoServidorNG() {
+		return estadoServidorNG;
+	}
+
+	public void estabelecerEstadoServidorNG(EstadoServidorNetgames estadoServidorNG) {
+		this.estadoServidorNG = estadoServidorNG;
+	}
+
+	// Metodo que esvazia a posicoes inicias do jogo
+	public void esvaziar() {
+		System.out.println("[Caverna][Esvaziar]: Reiniciando o estado da caverna!");
+		this.iniciar();
+		this.jogador1 = null;
+		this.jogador2 = null;
+		this.estadoJogo = EstadoJogo.NOT_ANDAMENTO;
+	}
+
+	/**
+	 * Cria o usuario com o ID Recebido do NetGames
+	 * 
+	 * @param idUsuario
+	 */
+	public void criarJogador(String idUsuario) {
+		if (jogador1 == null) {
+			jogador1 = new Jogador();
+
+		}
+
 	}
 
 }

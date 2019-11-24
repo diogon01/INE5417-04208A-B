@@ -74,6 +74,10 @@ public class Posicao {
 			g2d.setColor(Color.BLUE);
 			g2d.drawOval(x1, y1, InterfaceDiablo2d.informarTamanhoJogador(),
 					InterfaceDiablo2d.informarTamanhoJogador());
+		} else if (objeto == ObjetosCaverna.PISO) {
+			g2d.setColor(Color.GREEN);
+			g2d.drawOval(x1, y1, InterfaceDiablo2d.informarTamanhoJogador(),
+					InterfaceDiablo2d.informarTamanhoJogador());
 		}
 
 	}

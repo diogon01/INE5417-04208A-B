@@ -31,6 +31,7 @@ import javax.swing.SwingUtilities;
 
 import dominioProblema.Caverna;
 import dominioProblema.EstadoJogo;
+import dominioProblema.EstadoServidorNetgames;
 import dominioProblema.ObjetosCaverna;
 import dominioProblema.Posicao;
 import util.Recurso;
@@ -42,13 +43,13 @@ public class InterfaceDiablo2d extends JPanel {
 	private AtorJogador jogo;
 	// Objeto caverna
 	private Caverna caverna;
-	// Posicoes da matriz 2D de LINHAS por COLUNAS
-	private Posicao[][] posicoes;
 
 	public JFrame frame;
 
 	// Estados em que o jodo pode assumir
 	private EstadoJogo estadoJogo;
+	// Estado do NetGames
+	private EstadoServidorNetgames estadoServidorNG;
 	// Objetos da caverna
 	private ObjetosCaverna jogadorLance;
 	// Barra de estatos de comunicacao do jogo
@@ -93,7 +94,6 @@ public class InterfaceDiablo2d extends JPanel {
 	private JMenuItem jMenuItem3 = null;
 
 	public InterfaceDiablo2d(JFrame frameDiablo2D) {
-		posicoes = new Posicao[linhas][colunas];
 		System.out.println("[MouseEvent][Click do Mouse]: Escutando o clique do mouse!");
 		this.addMouseListener(new MouseAdapter() {
 			@Override
@@ -131,7 +131,7 @@ public class InterfaceDiablo2d extends JPanel {
 		barraDeEstatus.setBorder(BorderFactory.createEmptyBorder(2, 5, 4, 5));
 		barraDeEstatus.setOpaque(true);
 		barraDeEstatus.setBackground(Color.LIGHT_GRAY);
-		
+
 		barraDePlacar = new JLabel("Placar:     ");
 		barraDePlacar.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 14));
 		barraDePlacar.setBorder(BorderFactory.createEmptyBorder(2, 5, 4, 5));
@@ -216,6 +216,17 @@ public class InterfaceDiablo2d extends JPanel {
 		 */
 
 	}
+	
+	public void iniciarMapa() {
+		System.out.println("[Caverna][iniciarMapa][Piso]: Adicionando piso ao mapa");
+		for (int linha = 1; linha < (linhas - 1); ++linha) {
+			for (int coluna = 1; coluna < (colunas - 1); ++coluna) {
+				String alvo = String.format("[AtribuirPosicao][Piso]:[Linha]:%s [Coluna]:%s", linha, coluna);
+				System.out.println(alvo);
+				caverna.atribuirPosicao(linha, coluna, ObjetosCaverna.PISO);
+			}
+		}
+	}
 
 	private JMenu getMenu() {
 		if (menuJogo == null) {
@@ -279,9 +290,14 @@ public class InterfaceDiablo2d extends JPanel {
 		this.notificarResultado(resultado);
 	}
 
+	public void pintaMapa() {
+		repaint();
+	}
+
 	public void iniciarPartida() {
 		int resultado = jogo.iniciarPartida();
 		this.notificarResultado(resultado);
+		repaint();
 	}
 
 	public String solicitarServidor() {
@@ -295,30 +311,58 @@ public class InterfaceDiablo2d extends JPanel {
 	}
 
 	public void notificarResultado(int codigo) {
+		String retorno;
+
 		switch (codigo) {
 		case 0:
-			JOptionPane.showMessageDialog(this, "Conexão efetuada com exito");
+			retorno = String.format("[NetGames][Conectar][INFO]: Conexão efetuada com exito!");
+			System.out.println(retorno);
+			this.estadoServidorNG = EstadoServidorNetgames.CONECTADO;
+			barraDeEstatus.setForeground(Color.YELLOW);
+			barraDeEstatus.setText(retorno);
 			break;
 		case 1:
-			JOptionPane.showMessageDialog(this, "Tentativa de conexão com conexão previamente estabelecida");
+			retorno = String
+					.format("[NetGames][Conectar][ERROR]: Tentativa de conexão, com conexão previamente estabelecida!");
+			System.out.println(retorno);
+			barraDeEstatus.setText(retorno);
 			break;
 		case 2:
-			JOptionPane.showMessageDialog(this, "Tentativa de conexao falhou");
+			retorno = String.format("[NetGames][Conectar][ERROR]: Tentativa de conexao falhou!");
+			System.out.println(retorno);
+			barraDeEstatus.setText(retorno);
 			break;
 		case 3:
-			JOptionPane.showMessageDialog(this, "Desonexão efetuada com exito");
+			retorno = String.format("[NetGames][Desconectar][INFO]: Desonexão efetuada com exito!");
+			System.out.println(retorno);
+			this.estadoServidorNG = EstadoServidorNetgames.DESCONECTADO;
+			barraDeEstatus.setForeground(Color.GREEN);
+			barraDeEstatus.setText(retorno);
 			break;
 		case 4:
-			JOptionPane.showMessageDialog(this, "Tentativa de desconexao sem conexao previamente estabelecida");
+			retorno = String.format(
+					"[NetGames][Desconectar][ERROR]: Tentativa de desconexao sem conexao previamente estabelecida!");
+			System.out.println(retorno);
+			barraDeEstatus.setText(retorno);
 			break;
 		case 5:
+			retorno = String.format("[NetGames][Desconectar][ERROR]: Tentativa de desconexao falhou!");
+			System.out.println(retorno);
+			barraDeEstatus.setText(retorno);
 			JOptionPane.showMessageDialog(this, "Tentativa de desconexao falhou");
 			break;
 		case 6:
-			JOptionPane.showMessageDialog(this, "Solicitação de inicio procedida com êxito");
+			retorno = String.format("[NetGames][Iniciar][INFO]: Solicitação de inicio procedida com êxito!");
+			System.out.println(retorno);
+			this.estadoJogo = EstadoJogo.AGUARDANDO_INICIO;
+			barraDeEstatus.setForeground(Color.GREEN);
+			barraDeEstatus.setText(retorno);
 			break;
 		case 7:
-			JOptionPane.showMessageDialog(this, "Tentativa de inicio sem conexao previamente estabelecida");
+			retorno = String
+					.format("[NetGames][Iniciar][ERROR]: Tentativa de inicio sem conexao previamente estabelecida!");
+			System.out.println(retorno);
+			barraDeEstatus.setText(retorno);
 			break;
 		case 8:
 			JOptionPane.showMessageDialog(this, "Não é a sua vez");
@@ -394,23 +438,36 @@ public class InterfaceDiablo2d extends JPanel {
 		// Envia mensagem para pintar o tabuleiro
 		caverna.pintar(g);
 
-		// Print status-bar message
-		if (estadoJogo == EstadoJogo.PARTIDA_EM_ANDAMENTO) {
-			barraDeEstatus.setForeground(Color.BLACK);
-			if (jogadorLance == ObjetosCaverna.JOGADOR1) {
-				barraDeEstatus.setText("É o turno do jogador1: Paladino");
-			} else {
-				barraDeEstatus.setText("É o turno do jogador2: Mago");
+		if (estadoServidorNG == EstadoServidorNetgames.CONECTADO) {
+			// Print status-bar message
+			if (estadoJogo == EstadoJogo.PARTIDA_EM_ANDAMENTO) {
+				barraDeEstatus.setForeground(Color.BLACK);
+				if (jogadorLance == ObjetosCaverna.JOGADOR1) {
+					barraDeEstatus.setText("É o turno do jogador1: Paladino");
+				} else {
+					barraDeEstatus.setText("É o turno do jogador2: Mago");
+				}
+			} else if (estadoJogo == EstadoJogo.EMPATE) {
+				barraDeEstatus.setForeground(Color.RED);
+				barraDeEstatus.setText("É um empate! Clique para jogar novamente.");
+			} else if (estadoJogo == EstadoJogo.JOGADOR1_VENCEU) {
+				barraDeEstatus.setForeground(Color.RED);
+				barraDeEstatus.setText("Jogador 1' ganhou! Clique para jogar novamente.");
+			} else if (estadoJogo == EstadoJogo.JOGADOR2_VENCEU) {
+				barraDeEstatus.setForeground(Color.RED);
+				barraDeEstatus.setText("'Jogador 2' ganhou! Clique para jogar novamente.");
+			} else if (estadoJogo == EstadoJogo.NOT_ANDAMENTO) {
+				barraDeEstatus.setForeground(Color.YELLOW);
+				barraDeEstatus.setText("[Conectado][NOT_ANDAMENTO]: Conectado aguardando inicio!");
+			} else if (estadoJogo == EstadoJogo.AGUARDANDO_INICIO) {
+				barraDeEstatus.setForeground(Color.BLUE);
+				barraDeEstatus.setText("[Conectado][AGUARDANDO_INICIO]: Conectado e aguardando jogadores!");
+
 			}
-		} else if (estadoJogo == EstadoJogo.EMPATE) {
+		} else {
 			barraDeEstatus.setForeground(Color.RED);
-			barraDeEstatus.setText("É um empate! Clique para jogar novamente.");
-		} else if (estadoJogo == EstadoJogo.JOGADOR1_VENCEU) {
-			barraDeEstatus.setForeground(Color.RED);
-			barraDeEstatus.setText("Jogador 1' ganhou! Clique para jogar novamente.");
-		} else if (estadoJogo == EstadoJogo.JOGADOR2_VENCEU) {
-			barraDeEstatus.setForeground(Color.RED);
-			barraDeEstatus.setText("'Jogador 2' ganhou! Clique para jogar novamente.");
+			barraDeEstatus.setText("[CONEXAO][NOT_CONECTADO]: Iniciar conexao com o NET Games!");
 		}
+
 	}
 }

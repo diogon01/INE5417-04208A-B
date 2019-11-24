@@ -8,7 +8,7 @@ public class AtorJogador {
 	protected Caverna tab;
 	protected AtorNetGames rede;
 	protected InterfaceDiablo2d janela;
-	protected String idusuario;
+	protected String idUsuario;
 
 	public AtorJogador(InterfaceDiablo2d jan) {
 		super();
@@ -22,10 +22,10 @@ public class AtorJogador {
 		boolean conectado = tab.informarConectado();
 		if (!conectado) {
 			String servidor = janela.solicitarServidor();
-			idusuario = janela.obterIdServidor();
-			boolean exito = rede.conectar(servidor, idusuario);
+			idUsuario = janela.obterIdServidor();
+			boolean exito = rede.conectar(servidor, idUsuario);
 			if (exito) {
-				tab.estabelecerConectado(true);
+				tab.estabelecerConectado();
 				return 0;
 			} else {
 				return 2;
@@ -64,7 +64,7 @@ public class AtorJogador {
 		if (conectado){
 			boolean exito = rede.desconectar();
 			if (exito){
-				tab.estabelecerConectado(false);
+				tab.estabelecerDesconectado();
 				return 3;
 			}else{
 				return 5;
@@ -72,6 +72,13 @@ public class AtorJogador {
 		}else{
 			return 4;
 		}			
+	}
+
+	public void tratarIniciarPartida(Integer posicao) {
+		System.out.println("[AtorJogador][Iniciar Partida]: Inicia a partida na interface gráfica]");
+		janela.iniciarMapa();
+		System.out.println("[Chamando o REpaint][sads]: dasdadsa]");
+		janela.pintaMapa();
 	}
 
 

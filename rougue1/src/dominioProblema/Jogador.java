@@ -11,14 +11,6 @@ public class Jogador {
 	protected boolean daVez;
 	protected EstadoJogo estadoJogo;
 
-	public Jogador(String nome, int cor, int linha, int coluna, boolean daVez) {
-		super();
-		this.nome = nome;
-		this.cor = cor;
-		this.linha = linha;
-		this.coluna = coluna;
-		this.daVez = daVez;
-	}
 
 	public boolean informarDaVez() {
 		return daVez;
