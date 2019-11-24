@@ -75,7 +75,7 @@ public class Caverna {
 		 * GameMain.COLS; ++col) { if (cells[row][col].content == Seed.EMPTY) { return
 		 * false; // an empty seed found, not a draw, exit } } }
 		 */
-		return true; // no empty cell, it's a draw
+		return false; // no empty cell, it's a draw
 	}
 
 	public void criarJogador1(String idJogador) {

@@ -56,9 +56,9 @@ public class InterfaceDiablo2d extends JPanel {
 	// Barra que mostra o placar do jogo:
 	private JLabel barraDePlacar;
 	// Total de linhas da grade do Jogo
-	private static final int linhas = 10;
+	private static final int linhas = 20;
 	// Total de colunas da grade do Jogo
-	private static final int colunas = 10;
+	private static final int colunas = 20;
 	// Tamanho que vai ocupar cada celula da grid
 	private static final int tamanhoDacelula = 32;
 	// Largura da grade do Jogo
@@ -110,7 +110,7 @@ public class InterfaceDiablo2d extends JPanel {
 				if (estadoJogo == EstadoJogo.PARTIDA_EM_ANDAMENTO) {
 					if (linhaSelecionada >= 0 && linhaSelecionada < linhas && colunaSelecionada >= 0
 							&& colunaSelecionada < colunas && caverna.informaPosicao(linhaSelecionada,
-									colunaSelecionada).objeto == ObjetosCaverna.PISO) {
+									colunaSelecionada).objeto == ObjetosCaverna.VAZIO) {
 						// Atribui a posicao a caverna no jogo
 						caverna.atribuirPosicao(linhaSelecionada, colunaSelecionada, jogadorLance);
 						// Atualiza o jogo
