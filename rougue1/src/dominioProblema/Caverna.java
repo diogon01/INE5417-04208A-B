@@ -118,13 +118,7 @@ public class Caverna {
 		}
 	}
 
-	/*
-	 * public Posicao getPosicaoJogador(ObjetosCaverna jogador) { for (int linha =
-	 * 0; linha < InterfaceDiablo2d.informarLinhas(); ++linha) { for (int coluna =
-	 * 0; coluna < InterfaceDiablo2d.informaColunas(); ++coluna) { // Acerta a
-	 * posicao do Jogo if (informaPosicao(linha, coluna).objeto = jogador) { return
-	 * posicoes[linha][coluna]; } } } return null; }
-	 */
+	
 
 	public void setEmAndamento(boolean partidaEmAndamento) {
 		this.estadoJogo = EstadoJogo.PARTIDA_EM_ANDAMENTO;

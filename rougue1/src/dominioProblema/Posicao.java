@@ -4,12 +4,21 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import interfaceUsuario.InterfaceDiablo2d;
+import util.Recurso;
 
 public class Posicao {
 
 	public ObjetosCaverna objeto;
+	protected Recurso recurso = new Recurso();
 
 	int linha, coluna;
 
@@ -60,32 +69,37 @@ public class Posicao {
 		// Desenhe os elementos do jogo
 		int x1 = this.coluna * InterfaceDiablo2d.informarTamanhoDacelula() + InterfaceDiablo2d.informarPaddingCelula();
 		int y1 = this.linha * InterfaceDiablo2d.informarTamanhoDacelula() + InterfaceDiablo2d.informarPaddingCelula();
-		// Verifica se o objeto e o Jogador1
-		if (objeto == ObjetosCaverna.JOGADOR1) {
-			// Pinta o jogador de vermelho
-			g2d.setColor(Color.RED);
+
+		Image img;
+		try {
 			int x2 = (this.coluna + 1) * InterfaceDiablo2d.informarTamanhoDacelula()
 					- InterfaceDiablo2d.informarPaddingCelula();
 			int y2 = (this.linha + 1) * InterfaceDiablo2d.informarTamanhoDacelula()
 					- InterfaceDiablo2d.informarPaddingCelula();
-			g2d.drawLine(x1, y1, x2, y2);
-			g2d.drawLine(x2, y1, x1, y2);
-		} else if (objeto == ObjetosCaverna.JOGADOR2) {
-			g2d.setColor(Color.BLUE);
-			g2d.drawOval(x1, y1, InterfaceDiablo2d.informarTamanhoJogador(),
-					InterfaceDiablo2d.informarTamanhoJogador());
-		} else if (objeto == ObjetosCaverna.PISO) {
-			g2d.setColor(Color.GREEN);
-			g2d.drawOval(x1, y1, InterfaceDiablo2d.informarTamanhoJogador(),
-					InterfaceDiablo2d.informarTamanhoJogador());
-		} else if (objeto == ObjetosCaverna.PAREDE) {
-			g2d.setColor(Color.RED);
-			int x2 = (this.coluna + 1) * InterfaceDiablo2d.informarTamanhoDacelula()
-					- InterfaceDiablo2d.informarPaddingCelula();
-			int y2 = (this.linha + 1) * InterfaceDiablo2d.informarTamanhoDacelula()
-					- InterfaceDiablo2d.informarPaddingCelula();
-			g2d.drawLine(x1, y1, x2, y2);
-			g2d.drawLine(x2, y1, x1, y2);
+			// Verifica se o objeto e o Jogador1
+			if (objeto == ObjetosCaverna.JOGADOR1) {
+				// Pinta o jogador de vermelho
+				g2d.setColor(Color.RED);
+				g2d.drawLine(x1, y1, x2, y2);
+				g2d.drawLine(x2, y1, x1, y2);
+			} else if (objeto == ObjetosCaverna.JOGADOR2) {
+				g2d.setColor(Color.BLUE);
+				g2d.drawOval(x1, y1, InterfaceDiablo2d.informarTamanhoJogador(),
+						InterfaceDiablo2d.informarTamanhoJogador());
+			} else if (objeto == ObjetosCaverna.PISO) {
+				img = ImageIO.read(getClass().getResource("/interfaceUsuario/floor_1.png"));
+				g2d.drawImage(img, x1, y1, InterfaceDiablo2d.informarTamanhoDacelula(),
+						InterfaceDiablo2d.informarTamanhoDacelula(), null);
+
+			} else if (objeto == ObjetosCaverna.PAREDE) {
+				img = ImageIO.read(getClass().getResource("/interfaceUsuario/wall_mid.png"));
+				g2d.drawImage(img, x1, y1, InterfaceDiablo2d.informarTamanhoDacelula(),
+						InterfaceDiablo2d.informarTamanhoDacelula(), null);
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}

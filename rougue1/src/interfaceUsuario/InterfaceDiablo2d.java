@@ -77,7 +77,7 @@ public class InterfaceDiablo2d extends JPanel {
 	// Meio da Grade
 	private static final int meioDaGrade = larguraDaGrade / 2;
 	// Espacamento interno da celula
-	private static final int paddingCelula = tamanhoDacelula / 6;
+	private static final int paddingCelula = tamanhoDacelula / 12;
 	// Tamanho da imagem do Jogador
 	private static final int tamanhoJogador = tamanhoDacelula - paddingCelula * 2;
 	// pen's stroke width
