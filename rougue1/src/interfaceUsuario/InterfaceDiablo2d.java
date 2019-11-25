@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
@@ -153,7 +154,7 @@ public class InterfaceDiablo2d extends JPanel {
 		// Iniciando o ator jogador
 		jogo = new AtorJogador(this);
 		// Iniciando a Caverna
-		caverna = new Caverna();
+		caverna = new Caverna(linhas, colunas);
 
 		// Inicializa as variáveis do jogo
 		this.incializar();
@@ -216,9 +217,10 @@ public class InterfaceDiablo2d extends JPanel {
 		 */
 
 	}
-	
+
 	public void iniciarMapa() {
-		caverna.iniciarMapa();
+		caverna.iniciar(linhas, colunas);
+		caverna.iniciarMapa(linhas, colunas);
 	}
 
 	private JMenu getMenu() {
@@ -301,6 +303,11 @@ public class InterfaceDiablo2d extends JPanel {
 	public String obterIdServidor() {
 		// TODO Auto-generated method stub
 		return JOptionPane.showInputDialog("Nome:");
+	}
+
+	public static int getRandom(int[] array) {
+		int rnd = new Random().nextInt(array.length);
+		return array[rnd];
 	}
 
 	public void notificarResultado(int codigo) {
@@ -428,8 +435,10 @@ public class InterfaceDiablo2d extends JPanel {
 
 		// preencher background de branco
 		setBackground(Color.WHITE); // set its background color
+
 		// Envia mensagem para pintar o tabuleiro
-		caverna.pintar(g);
+		caverna.pintar(g, tamanhoDacelula, meioDaGrade, larguraDaCaverna, larguraDaGrade, larguraLinhaPreta,
+				paddingCelula, tamanhoJogador, alturaDaCaverna, linhas, colunas);
 
 		if (estadoServidorNG == EstadoServidorNetgames.CONECTADO) {
 			// Print status-bar message

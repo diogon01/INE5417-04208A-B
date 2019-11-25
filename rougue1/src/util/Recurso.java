@@ -34,7 +34,7 @@ public class Recurso {
 		return sprites.get(nome);
 	}
 	
-	public static int geradorDeNumeroAleatorios(int min, int max) {
+	public int geradorDeNumeroAleatorios(int min, int max) {
 
 		if (min >= max) {
 			throw new IllegalArgumentException("max must be greater than min");

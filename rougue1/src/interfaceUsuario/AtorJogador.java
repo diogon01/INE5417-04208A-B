@@ -14,8 +14,8 @@ public class AtorJogador {
 		super();
 		rede = new AtorNetGames(this);
 		janela = jan;
-		tab = new Caverna();
-		tab.iniciar();
+		tab = new Caverna(InterfaceDiablo2d.informarLinhas(), InterfaceDiablo2d.informaColunas());
+		tab.iniciar(InterfaceDiablo2d.informarLinhas(), InterfaceDiablo2d.informaColunas());
 	}
 
 	public int conectar() {
@@ -61,17 +61,17 @@ public class AtorJogador {
 
 	public int desconectar() {
 		boolean conectado = tab.informarConectado();
-		if (conectado){
+		if (conectado) {
 			boolean exito = rede.desconectar();
-			if (exito){
+			if (exito) {
 				tab.estabelecerDesconectado();
 				return 3;
-			}else{
+			} else {
 				return 5;
-			}			
-		}else{
+			}
+		} else {
 			return 4;
-		}			
+		}
 	}
 
 	public void tratarIniciarPartida(Integer posicao) {
@@ -80,6 +80,5 @@ public class AtorJogador {
 		System.out.println("[Chamando o REpaint][sads]: dasdadsa]");
 		janela.pintaMapa();
 	}
-
 
 }

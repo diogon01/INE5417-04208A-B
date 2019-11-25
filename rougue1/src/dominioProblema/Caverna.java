@@ -2,10 +2,12 @@ package dominioProblema;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 import java.util.Vector;
 
 import interfaceUsuario.InterfaceDiablo2d;
 import logica.itens.Item;
+import util.Recurso;
 
 public class Caverna {
 
@@ -18,15 +20,7 @@ public class Caverna {
 	protected EstadoJogo estadoJogo;
 	private EstadoServidorNetgames estadoServidorNG;
 	protected Vector<Posicao> posicoesAfetadas = new Vector<Posicao>();
-
-	// Pintando a linha preta
-	int linhas = InterfaceDiablo2d.informarLinhas();
-	int colunas = InterfaceDiablo2d.informaColunas();
-	int tamanhoDaCelula = InterfaceDiablo2d.informarTamanhoDacelula();
-	int larguraDaCaverna = InterfaceDiablo2d.informaLarguraDaCaverna();
-	int alturaDaCaverna = InterfaceDiablo2d.informarAlturaDaCaverna();
-	int larguraDaGrade = InterfaceDiablo2d.informarLarguraDaGrade();
-	int meioDaGrade = InterfaceDiablo2d.informarMeioDagrade();
+	protected Recurso recurso = new Recurso();
 
 	public boolean informarConectado() {
 		return estadoServidorNG == EstadoServidorNetgames.CONECTADO;
@@ -44,8 +38,8 @@ public class Caverna {
 		return estadoJogo == EstadoJogo.PARTIDA_EM_ANDAMENTO;
 	}
 
-	public Caverna() {
-		zerarPosicoesAfetadas();
+	public Caverna(int linhas, int colunas) {
+		zerarPosicoesAfetadas(linhas, colunas);
 	}
 
 	public int click(int linha, int coluna) {
@@ -65,7 +59,7 @@ public class Caverna {
 		return lance;
 	}
 
-	public void iniciar() {
+	public void iniciar(int linhas, int colunas) {
 		for (int linha = 0; linha < linhas; ++linha) {
 			for (int coluna = 0; coluna < colunas; ++coluna) {
 				// limpa o conteúdo da célula
@@ -75,9 +69,11 @@ public class Caverna {
 	}
 
 	/**
-	 * Metodo que inicia as posicoes do mapa
+	 * 
+	 * @param linhas
+	 * @param colunas
 	 */
-	public void iniciarMapa() {
+	public void iniciarMapa(int linhas, int colunas) {
 		System.out.println("[Caverna][iniciarMapa][Piso]: Adicionando piso ao mapa");
 		for (int linha = 0; linha < linhas; ++linha) {
 			String alvo = null;
@@ -93,6 +89,24 @@ public class Caverna {
 
 			}
 		}
+
+		int[] r;
+		r = new int[] { 1, 2, 3 };
+		System.out.println("[Caverna][iniciarMapa][Jogador1]: Criando Jogador 1 Paladino");
+
+		this.atribuirPosicao(14, 8, ObjetosCaverna.JOGADOR1);
+
+		System.out.println("[Caverna][iniciarMapa][Jogador2]: Criando Jogador 2 Mago");
+		this.atribuirPosicao(14, 12, ObjetosCaverna.JOGADOR2);
+		
+		System.out.println("[Caverna][iniciarMapa][TESOURO]: Criando o Tesouro");
+		this.atribuirPosicao(6, 10, ObjetosCaverna.TESOURO);
+
+	}
+
+	public static int getRandom(int[] array) {
+		int rnd = new Random().nextInt(array.length);
+		return array[rnd];
 	}
 
 	public boolean jogoEmpatou() {
@@ -108,17 +122,15 @@ public class Caverna {
 		return jogador1.informarNome().equals(idJogador) ? jogador1 : jogador2;
 	}
 
-	public void zerarPosicoesAfetadas() {
+	public void zerarPosicoesAfetadas(int linhas, int colunas) {
 		posicoes = new Posicao[linhas][colunas];
 		for (int linha = 0; linha < linhas; ++linha) {
-			for (int coluna = 0; coluna < linhas; ++coluna) {
+			for (int coluna = 0; coluna < colunas; ++coluna) {
 				// Acerta a posicao do Jogo
 				posicoes[linha][coluna] = new Posicao(linha, coluna);
 			}
 		}
 	}
-
-	
 
 	public void setEmAndamento(boolean partidaEmAndamento) {
 		this.estadoJogo = EstadoJogo.PARTIDA_EM_ANDAMENTO;
@@ -166,7 +178,9 @@ public class Caverna {
 		this.posicoes[linha][coluna].objeto = objeto;
 	}
 
-	public void pintar(Graphics g) {
+	public void pintar(Graphics g, int tamanhoDaCelula, int meioDaGrade, int larguraDaCaverna, int larguraDaGrade,
+			int larguralinhapreta, int paddingcelula, int tamanhojogador, int alturaDaCaverna, int linhas,
+			int colunas) {
 
 		g.setColor(Color.GRAY);
 		for (int linha = 1; linha < linhas; ++linha) {
@@ -182,7 +196,8 @@ public class Caverna {
 		for (int linha = 0; linha < linhas; ++linha) {
 			for (int coluna = 0; coluna < colunas; ++coluna) {
 				// Pintando a celula
-				posicoes[linha][coluna].pintar(g);
+				posicoes[linha][coluna].desenharPosicao(g, tamanhoDaCelula, meioDaGrade, larguraDaCaverna,
+						larguraDaGrade, larguralinhapreta, paddingcelula, tamanhojogador, alturaDaCaverna, linhas);
 			}
 		}
 	}
@@ -203,7 +218,6 @@ public class Caverna {
 	// Metodo que esvazia a posicoes inicias do jogo
 	public void esvaziar() {
 		System.out.println("[Caverna][Esvaziar]: Reiniciando o estado da caverna!");
-		this.iniciar();
 		this.jogador1 = null;
 		this.jogador2 = null;
 		this.estadoJogo = EstadoJogo.NOT_ANDAMENTO;
