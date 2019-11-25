@@ -440,6 +440,7 @@ public class InterfaceDiablo2d extends JPanel {
 		caverna.pintar(g, tamanhoDacelula, meioDaGrade, larguraDaCaverna, larguraDaGrade, larguraLinhaPreta,
 				paddingCelula, tamanhoJogador, alturaDaCaverna, linhas, colunas);
 
+		estadoJogo = caverna.informarEstadoDoJogo();
 		if (estadoServidorNG == EstadoServidorNetgames.CONECTADO) {
 			// Print status-bar message
 			if (estadoJogo == EstadoJogo.PARTIDA_EM_ANDAMENTO) {
