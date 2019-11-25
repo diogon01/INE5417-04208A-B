@@ -102,7 +102,19 @@ public class AtorNetGames implements OuvidorProxy {
 
 	@Override
 	public void tratarPartidaNaoIniciada(String message) {
-		// TODO Auto-generated method stub
+		String retorno = String.format("[NetGames][Partida nao iniciada][INFO]:%s", message);
+		System.out.println(retorno);
 
 	}
+
+	public String informarNomeAdversario(String idUsuario) {
+		String aux1 = proxy.obterNomeAdversario(new Integer(1));
+		String aux2 = proxy.obterNomeAdversario(new Integer(2));
+		if (aux1.equals(idUsuario)) {
+			return aux2;
+		} else {
+			return aux1;
+		}
+	}
+
 }

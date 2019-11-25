@@ -108,7 +108,7 @@ public class InterfaceDiablo2d extends JPanel {
 				String grid = String.format("[Linha]:%s [Coluna]:%s", linhaSelecionada, colunaSelecionada);
 				System.out.println(grid);
 				System.out.println(alvo);
-				if (estadoJogo == EstadoJogo.PARTIDA_EM_ANDAMENTO) {
+				if (caverna.informarEstadoDoJogo() == EstadoJogo.PARTIDA_EM_ANDAMENTO) {
 					if (linhaSelecionada >= 0 && linhaSelecionada < linhas && colunaSelecionada >= 0
 							&& colunaSelecionada < colunas && caverna.informaPosicao(linhaSelecionada,
 									colunaSelecionada).objeto == ObjetosCaverna.VAZIO) {
@@ -151,10 +151,10 @@ public class InterfaceDiablo2d extends JPanel {
 
 		// account for statusBar in height
 
-		// Iniciando o ator jogador
-		jogo = new AtorJogador(this);
 		// Iniciando a Caverna
 		caverna = new Caverna(linhas, colunas);
+		// Iniciando o ator jogador
+		jogo = new AtorJogador(this, caverna);
 
 		// Inicializa as variáveis do jogo
 		this.incializar();

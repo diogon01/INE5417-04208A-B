@@ -5,8 +5,6 @@ import java.awt.Graphics;
 import java.util.Random;
 import java.util.Vector;
 
-import interfaceUsuario.InterfaceDiablo2d;
-import logica.itens.Item;
 import util.Recurso;
 
 public class Caverna {
@@ -98,7 +96,7 @@ public class Caverna {
 
 		System.out.println("[Caverna][iniciarMapa][Jogador2]: Criando Jogador 2 Mago");
 		this.atribuirPosicao(14, 12, ObjetosCaverna.JOGADOR2);
-		
+
 		System.out.println("[Caverna][iniciarMapa][TESOURO]: Criando o Tesouro");
 		this.atribuirPosicao(6, 10, ObjetosCaverna.TESOURO);
 
@@ -228,12 +226,26 @@ public class Caverna {
 	 * 
 	 * @param idUsuario
 	 */
-	public void criarJogador(String idUsuario) {
+	public void criarJogador(String idJogador) {
 		if (jogador1 == null) {
 			jogador1 = new Jogador();
-
+			jogador1.iniciar();
+			jogador1.assumirNome(idJogador);
+		} else {
+			jogador2 = new Jogador();
+			jogador2.iniciar();
+			jogador2.assumirNome(idJogador);
 		}
+	}
 
+	public void estabelecerPartidaEmAndamento() {
+		// TODO Auto-generated method stub
+		this.estadoJogo = EstadoJogo.PARTIDA_EM_ANDAMENTO;
+	}
+
+	public EstadoJogo informarEstadoDoJogo() {
+		// TODO Auto-generated method stub
+		return this.estadoJogo;
 	}
 
 }

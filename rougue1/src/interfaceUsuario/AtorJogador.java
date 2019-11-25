@@ -10,11 +10,11 @@ public class AtorJogador {
 	protected InterfaceDiablo2d janela;
 	protected String idUsuario;
 
-	public AtorJogador(InterfaceDiablo2d jan) {
+	public AtorJogador(InterfaceDiablo2d jan, Caverna caverna) {
 		super();
 		rede = new AtorNetGames(this);
 		janela = jan;
-		tab = new Caverna(InterfaceDiablo2d.informarLinhas(), InterfaceDiablo2d.informaColunas());
+		tab = caverna;
 		tab.iniciar(InterfaceDiablo2d.informarLinhas(), InterfaceDiablo2d.informaColunas());
 	}
 
@@ -77,7 +77,10 @@ public class AtorJogador {
 	public void tratarIniciarPartida(Integer posicao) {
 		System.out.println("[AtorJogador][Iniciar Partida]: Inicia a partida na interface gráfica]");
 		janela.iniciarMapa();
-		System.out.println("[Chamando o REpaint][sads]: dasdadsa]");
+		tab.criarJogador(idUsuario);
+		String idJogador = rede.informarNomeAdversario(idUsuario);
+		tab.criarJogador(idJogador);
+		tab.estabelecerPartidaEmAndamento();
 		janela.pintaMapa();
 	}
 
