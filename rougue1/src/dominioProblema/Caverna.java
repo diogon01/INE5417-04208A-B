@@ -280,6 +280,9 @@ public class Caverna {
 		int linha = jogada.informarLinha();
 		int coluna = jogada.informarColuna();
 		boolean vez = jogador1.informarDaVez();
+		
+		this.atribuirPosicao(linha, coluna, jogada.informarObjeto());
+		
 		int resultado;
 		if (vez) {
 			resultado = this.tratarLance(jogador1, linha, coluna, jogada.informarObjeto());

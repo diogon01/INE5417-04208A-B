@@ -143,11 +143,12 @@ public class InterfaceDiablo2d extends JPanel {
 	}
 
 	/**
-	 * Metodo que trata e envia a jogada para q 
+	 * Metodo que trata e envia a jogada para q
+	 * 
 	 * @param e
 	 */
 	protected void joagada(MouseEvent e) {
-		
+
 		int mouseX = e.getX();
 		int mouseY = e.getY();
 		// Get na linha e na coluna da caverna
@@ -393,7 +394,9 @@ public class InterfaceDiablo2d extends JPanel {
 			JOptionPane.showMessageDialog(this, "Partida encerrada");
 			break;
 		case 10:
-			JOptionPane.showMessageDialog(this, "Lance OK");
+			retorno = String.format("[NetGames][LANCE][OK]: Retornou do net Games dizendo OK!");
+			System.out.println(retorno);
+			barraDeEstatus.setText(retorno);
 			break;
 		case 11:
 			JOptionPane.showMessageDialog(this, "Posição ocupada");
