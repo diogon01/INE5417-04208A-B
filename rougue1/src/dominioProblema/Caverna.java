@@ -176,7 +176,7 @@ public class Caverna {
 
 		String alvo = String.format("[Mudando do convidado]:%s [Mudando]:%s", linhaMovimento, colunaMovimento);
 		System.out.println(alvo);
-		this.atribuirPosicao(jogadorConvidado.getLinha(), jogadorConvidado.getColuna(), jogador.objeto);
+		this.atribuirPosicao(jogadorConvidado.getLinha(), jogadorConvidado.getColuna(), jogadorConvidado.informObjeto());
 
 		return 10;
 	}
@@ -309,9 +309,12 @@ public class Caverna {
 			jogadorLocal.setLinha(14);
 			jogadorLocal.setColuna(8);
 			jogadorLocal.assumirSimbolo(true);
+			
+			jogadorConvidado.atribuirObjeto(ObjetosCaverna.JOGADOR2);
 			jogadorConvidado.assumirSimbolo(false);
 			jogadorConvidado.setLinha(14);
 			jogadorConvidado.setColuna(12);
+			
 
 		} else {
 			jogadorConvidado.habilitar();
@@ -347,10 +350,10 @@ public class Caverna {
 			jogadorConvidado.desabilitar();
 			jogadorLocal.habilitar();
 			System.out.println(getObjetos);
-			int tratar_Lance =this.tratarLanceConvidado(jogadorConvidado, linha, coluna, jogada.objeto);
-			getObjetos = String.format("[Caverna][tratarLanceConvidado][Resultado]:%s", tratar_Lance);
 			
 		}
+		int tratar_Lance =this.tratarLanceConvidado(jogadorConvidado, linha, coluna, jogada.objeto);
+		getObjetos = String.format("[Caverna][tratarLanceConvidado][Resultado]:%s", tratar_Lance);
 
 	}
 
