@@ -91,12 +91,6 @@ public class AtorJogador {
 		janela.reDesenharMapa();
 	}
 
-	public void receberJogada(Lance jogada) {
-		tab.receberJogada(jogada);
-		janela.reDesenharMapa();
-
-	}
-
 	public int jogada(int linha, int coluna, ObjetosCaverna objeto) {
 		int resultado = 0;
 		resultado = tab.jogada(linha, coluna, objeto);
@@ -114,9 +108,14 @@ public class AtorJogador {
 	}
 
 	public int jogadaTeclado(int linha, int coluna, Jogador jodador) {
-	    
-		
+	    		
 		return 0;
+	}
+	
+	public void receberJogada(Lance jogada) {
+		tab.receberJogada(jogada);
+		janela.reDesenharMapa();
+
 	}
 
 }

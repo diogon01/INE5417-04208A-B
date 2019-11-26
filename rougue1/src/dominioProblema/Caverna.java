@@ -63,22 +63,16 @@ public class Caverna {
 	public void iniciarMapa(int linhas, int colunas) {
 		System.out.println("[Caverna][iniciarMapa][Piso]: Adicionando piso ao mapa");
 		for (int linha = 0; linha < linhas; ++linha) {
-			String alvo = null;
 			for (int coluna = 0; coluna < colunas; ++coluna) {
 				if (linha > 0 && linha < (linhas - 1) && (coluna > 0 && coluna < (colunas - 1))) {
-					alvo = String.format("[AtribuirPosicao][PISO]:[Linha]:%s [Coluna]:%s", linha, coluna);
 					this.atribuirPosicao(linha, coluna, ObjetosCaverna.PISO);
 				} else {
-					alvo = String.format("[AtribuirPosicao][PAREDE]:[Linha]:%s [Coluna]:%s", linha, coluna);
 					this.atribuirPosicao(linha, coluna, ObjetosCaverna.PAREDE);
 				}
-				System.out.println(alvo);
 
 			}
 		}
 
-		int[] r;
-		r = new int[] { 1, 2, 3 };
 		System.out.println("[Caverna][iniciarMapa][Jogador1]: Criando Jogador 1 Paladino");
 
 		this.atribuirPosicao(14, 8, ObjetosCaverna.JOGADOR1);
@@ -140,6 +134,10 @@ public class Caverna {
 		if (pose.objeto == ObjetosCaverna.PAREDE) {
 			return 12;
 		}
+		
+		if (pose.objeto == ObjetosCaverna.TESOURO) {
+			return 9;
+		}
 
 		int linhaMovimento = jogador.getLinha() + linha;
 		int colunaMovimento = jogador.getColuna() + coluna;
@@ -154,6 +152,31 @@ public class Caverna {
 			this.atribuirPosicao(jogadorLocal.getLinha(), jogadorLocal.getColuna(), jogador.objeto);
 
 		}
+
+		return 10;
+	}
+
+	public int tratarLanceConvidado(Jogador jogador, int linha, int coluna, ObjetosCaverna objeto) {
+
+		Posicao pose = this.informaPosicao(jogadorLocal.getLinha() + linha, jogadorLocal.getColuna() + coluna);
+		if (pose.objeto == ObjetosCaverna.JOGADOR2 || pose.objeto == ObjetosCaverna.JOGADOR1) {
+			return 11;
+		}
+		if (pose.objeto == ObjetosCaverna.PAREDE) {
+			return 12;
+		}
+
+		int linhaMovimento = jogadorConvidado.getLinha() + linha;
+		int colunaMovimento = jogadorConvidado.getColuna() + coluna;
+
+		this.atribuirPosicao(jogadorConvidado.getLinha(), jogadorConvidado.getColuna(), ObjetosCaverna.PISO);
+
+		jogadorConvidado.setLinha(linhaMovimento);
+		jogadorConvidado.setColuna(colunaMovimento);
+
+		String alvo = String.format("[Mudando do convidado]:%s [Mudando]:%s", linhaMovimento, colunaMovimento);
+		System.out.println(alvo);
+		this.atribuirPosicao(jogadorConvidado.getLinha(), jogadorConvidado.getColuna(), jogador.objeto);
 
 		return 10;
 	}
@@ -295,8 +318,10 @@ public class Caverna {
 			jogadorLocal.atribuirObjeto(ObjetosCaverna.JOGADOR2);
 			jogadorLocal.setLinha(14);
 			jogadorLocal.setColuna(12);
-			jogadorConvidado.assumirSimbolo(true);
 			jogadorLocal.assumirSimbolo(false);
+
+			jogadorConvidado.atribuirObjeto(ObjetosCaverna.JOGADOR1);
+			jogadorConvidado.assumirSimbolo(true);
 			jogadorConvidado.setLinha(14);
 			jogadorConvidado.setColuna(8);
 
@@ -309,24 +334,22 @@ public class Caverna {
 		int coluna = jogada.informarColuna();
 		boolean vez = jogadorLocal.informarDaVez();
 
-		if (jogada.objeto == jogadorLocal.objeto) {
+		String getObjetos = null;
+
+		if (jogada.informarObjeto() == jogadorLocal.informObjeto()) {
+			getObjetos = String.format("[Caverna][Habilitar][Jogador: LOCAL]:%s", jogadorLocal.informObjeto());
 			jogadorLocal.desabilitar();
 			jogadorConvidado.habilitar();
-		} else if(jogada.objeto == jogadorConvidado.objeto) {
-			
+			System.out.println(getObjetos);
+		}
+		if (jogada.informarObjeto() == jogadorConvidado.informObjeto()) {
+			getObjetos = String.format("[Caverna][Habilitar][Jogador: CONVIDADO]:%s", jogadorLocal.informObjeto());
 			jogadorConvidado.desabilitar();
 			jogadorLocal.habilitar();
-		}
-		
-		this.atribuirPosicao(linha, coluna, jogada.informarObjeto());
-		int resultado;
-		if (vez) {
-			resultado = this.tratarLance(jogadorLocal, linha, coluna, jogada.informarObjeto());
-		} else {
-			resultado = this.tratarLance(jogadorConvidado, linha, coluna, jogada.informarObjeto());
-		}
-		if (resultado == 9) {
-			this.finalizarPartida();
+			System.out.println(getObjetos);
+			int tratar_Lance =this.tratarLanceConvidado(jogadorConvidado, linha, coluna, jogada.objeto);
+			getObjetos = String.format("[Caverna][tratarLanceConvidado][Resultado]:%s", tratar_Lance);
+			
 		}
 
 	}

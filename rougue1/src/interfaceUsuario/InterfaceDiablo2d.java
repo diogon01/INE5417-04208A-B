@@ -198,13 +198,16 @@ public class InterfaceDiablo2d extends JPanel {
 							e.getKeyCode());
 				}
 
-				notificarResultado(jogo.jogada(linhaSelecionada, colunaSelecionada, jogadorLance));
+				notificarResultado(jogo.jogada(linhaSelecionada, colunaSelecionada, caverna.informarObjetoJogador()));
 				// Atribui a posicao a caverna no jogo
 				repaint();
 
 			} else {
 				alvo = String.format("[KeyListener][Tecla Pressionada][NOT SUA VEZ]: Aguarda o seu turno para jogar!");
+				barraDeEstatus.setForeground(Color.RED);
+				barraDeEstatus.setText(alvo);
 			}
+			
 
 			System.out.println(alvo);
 		} else {
@@ -234,7 +237,6 @@ public class InterfaceDiablo2d extends JPanel {
 					&& colunaSelecionada < colunas) {
 				if (caverna.informavezJogador1()) {
 
-					jogadorLance = ObjetosCaverna.JOGADOR1;
 					notificarResultado(jogo.jogada(linhaSelecionada, colunaSelecionada, jogadorLance));
 
 					// Atribui a posicao a caverna no jogo
@@ -468,6 +470,7 @@ public class InterfaceDiablo2d extends JPanel {
 			retorno = String.format("[NetGames][LANCE][OK]: Retornou do net Games dizendo OK!");
 			System.out.println(retorno);
 			barraDeEstatus.setText(retorno);
+			
 			break;
 		case 11:
 			JOptionPane.showMessageDialog(this, "Posição ocupada");

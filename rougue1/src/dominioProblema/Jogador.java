@@ -56,6 +56,10 @@ public class Jogador {
 	public void atribuirObjeto(ObjetosCaverna objeto) {
 		this.objeto = objeto;
 	}
+	
+	public ObjetosCaverna informObjeto() {
+		return  this.objeto;
+	}
 
 	public void assumirVencedor() {
 		vencedor = true;
