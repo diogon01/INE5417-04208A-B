@@ -464,7 +464,7 @@ public class InterfaceDiablo2d extends JPanel {
 			JOptionPane.showMessageDialog(this, "Não é a sua vez");
 			break;
 		case 9:
-			JOptionPane.showMessageDialog(this, "Partida encerrada");
+			JOptionPane.showMessageDialog(this, "Voce chegou ao tesouro Parabéns");
 			break;
 		case 10:
 			retorno = String.format("[NetGames][LANCE][OK]: Retornou do net Games dizendo OK!");
