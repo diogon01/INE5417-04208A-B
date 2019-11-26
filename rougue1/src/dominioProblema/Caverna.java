@@ -1,10 +1,10 @@
 package dominioProblema;
 
 import java.awt.Color;
+
 import java.awt.Graphics;
 import java.util.Random;
 import java.util.Vector;
-
 import util.Recurso;
 
 public class Caverna {
@@ -40,20 +40,9 @@ public class Caverna {
 		zerarPosicoesAfetadas(linhas, colunas);
 	}
 
-	public int click(int linha, int coluna) {
-		boolean vez = jogador1.informarDaVez();
-		int resultado;
-		if (vez) {
-			resultado = this.tratarLance(jogador1, linha, coluna);
-		} else {
-			resultado = 8;
-		}
-		return resultado;
-	}
-
-	public Lance informarJogada(int linha, int coluna) {
+	public Lance informarJogada(ObjetosCaverna objeto, int linha, int coluna) {
 		Lance lance = new Lance();
-		lance.assumir(linha, coluna);
+		lance.assumir(objeto, linha, coluna);
 		return lance;
 	}
 
@@ -142,7 +131,14 @@ public class Caverna {
 		return jogador1.informarVencedor() ? jogador1.informarNome() : jogador2.informarNome();
 	}
 
-	public int tratarLance(Jogador jogador, int linha, int coluna) {
+	public int tratarLance(Jogador jogador, int linha, int coluna, ObjetosCaverna objeto) {
+		Posicao pose = this.informaPosicao(linha, coluna);
+		if (pose.objeto == ObjetosCaverna.JOGADOR2 || pose.objeto == ObjetosCaverna.JOGADOR1) {
+			return 11;
+		}
+		if (pose.objeto == ObjetosCaverna.PAREDE) {
+			return 12;
+		}
 		return 10;
 	}
 
@@ -170,6 +166,20 @@ public class Caverna {
 
 	public Posicao informaPosicao(int linha, int coluna) {
 		return posicoes[linha][coluna];
+	}
+
+	public int jogada(int linha, int coluna, ObjetosCaverna objeto) {
+		boolean vez = jogador1.informarDaVez();
+		int resultado;
+		if (vez) {
+			resultado = this.tratarLance(jogador1, linha, coluna, objeto);
+			if (resultado == 10 || (resultado == 9)) {
+
+			}
+		} else {
+			resultado = 8;
+		}
+		return resultado;
 	}
 
 	public void atribuirPosicao(int linha, int coluna, ObjetosCaverna objeto) {
@@ -246,6 +256,45 @@ public class Caverna {
 	public EstadoJogo informarEstadoDoJogo() {
 		// TODO Auto-generated method stub
 		return this.estadoJogo;
+	}
+
+	/**
+	 * Posicao recebida do NET-Games
+	 * 
+	 * @param posicao
+	 */
+	public void habilitarJogadores(Integer posicao) {
+		if (posicao == 1) {
+			jogador1.habilitar();
+			jogador1.assumirSimbolo(true);
+			jogador2.assumirSimbolo(false);
+
+		} else {
+			jogador2.habilitar();
+			jogador2.assumirSimbolo(true);
+			jogador1.assumirSimbolo(false);
+		}
+	}
+
+	public void receberJogada(Lance jogada) {
+		int linha = jogada.informarLinha();
+		int coluna = jogada.informarColuna();
+		boolean vez = jogador1.informarDaVez();
+		int resultado;
+		if (vez) {
+			resultado = this.tratarLance(jogador1, linha, coluna, jogada.informarObjeto());
+		} else {
+			resultado = this.tratarLance(jogador2, linha, coluna, jogada.informarObjeto());
+		}
+		if (resultado == 9) {
+			this.finalizarPartida();
+		}
+
+	}
+
+	public boolean informavezJogador1() {
+		// TODO Auto-generated method stub
+		return jogador1.daVez;
 	}
 
 }

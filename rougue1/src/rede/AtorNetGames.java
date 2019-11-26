@@ -8,8 +8,10 @@ import br.ufsc.inf.leobr.cliente.Proxy;
 import br.ufsc.inf.leobr.cliente.exception.ArquivoMultiplayerException;
 import br.ufsc.inf.leobr.cliente.exception.JahConectadoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoConectadoException;
+import br.ufsc.inf.leobr.cliente.exception.NaoJogandoException;
 import br.ufsc.inf.leobr.cliente.exception.NaoPossivelConectarException;
 import dominioProblema.Caverna;
+import dominioProblema.Lance;
 import interfaceUsuario.AtorJogador;
 
 public class AtorNetGames implements OuvidorProxy {
@@ -91,7 +93,8 @@ public class AtorNetGames implements OuvidorProxy {
 
 	@Override
 	public void receberJogada(Jogada jogada) {
-
+		Lance estado = (Lance) jogada;
+		interfaceGrafica.receberJogada(estado);
 	}
 
 	@Override
@@ -115,6 +118,16 @@ public class AtorNetGames implements OuvidorProxy {
 		} else {
 			return aux1;
 		}
+	}
+
+	public void enviarJogada(Lance lance) {
+		try {
+			proxy.enviaJogada(lance);
+		} catch (NaoJogandoException e) {
+			String retorno = String.format("[NetGames][Partida nao iniciada][INFO]:%s", e);
+			System.out.println(retorno);
+		}
+
 	}
 
 }

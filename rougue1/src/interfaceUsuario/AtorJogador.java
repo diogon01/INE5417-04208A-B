@@ -1,6 +1,8 @@
 package interfaceUsuario;
 
 import dominioProblema.Caverna;
+import dominioProblema.Lance;
+import dominioProblema.ObjetosCaverna;
 import rede.AtorNetGames;
 
 public class AtorJogador {
@@ -76,12 +78,35 @@ public class AtorJogador {
 
 	public void tratarIniciarPartida(Integer posicao) {
 		System.out.println("[AtorJogador][Iniciar Partida]: Inicia a partida na interface gráfica]");
-		janela.iniciarMapa();
 		tab.criarJogador(idUsuario);
-		String idJogador = rede.informarNomeAdversario(idUsuario);
-		tab.criarJogador(idJogador);
+		String idJAdversrio = rede.informarNomeAdversario(idUsuario);
+		tab.criarJogador(idJAdversrio);
+		janela.iniciarMapa(idUsuario, idJAdversrio);
+		tab.habilitarJogadores(posicao);
 		tab.estabelecerPartidaEmAndamento();
-		janela.pintaMapa();
+		janela.reDesenharMapa();
+	}
+
+	public void receberJogada(Lance jogada) {
+		tab.receberJogada(jogada);
+		janela.reDesenharMapa();
+
+	}
+
+	public int jogada(int linha, int coluna, ObjetosCaverna objeto) {
+		int resultado = 0;
+		resultado = tab.jogada(linha, coluna, objeto);
+		
+		if ((resultado == 10) || (resultado == 9)) {
+			this.enviarJogada(linha, coluna, objeto);
+		}
+		return resultado;
+	}
+
+	private void enviarJogada(int linha, int coluna, ObjetosCaverna objeto) {
+		Lance lance = tab.informarJogada(objeto, linha, coluna);
+		rede.enviarJogada(lance);
+		
 	}
 
 }

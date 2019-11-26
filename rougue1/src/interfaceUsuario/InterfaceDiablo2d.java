@@ -28,6 +28,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import dominioProblema.Caverna;
@@ -56,7 +57,7 @@ public class InterfaceDiablo2d extends JPanel {
 	// Barra de estatos de comunicacao do jogo
 	private JLabel barraDeEstatus;
 	// Barra que mostra o placar do jogo:
-	private JLabel barraDePlacar;
+	private JLabel barraNomeJogadores;
 	// Total de linhas da grade do Jogo
 	private static final int linhas = 20;
 	// Total de colunas da grade do Jogo
@@ -99,29 +100,8 @@ public class InterfaceDiablo2d extends JPanel {
 		this.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				int mouseX = e.getX();
-				int mouseY = e.getY();
-				// Get na linha e na coluna da caverna
-				int linhaSelecionada = mouseY / tamanhoDacelula;
-				int colunaSelecionada = mouseX / tamanhoDacelula;
-				String alvo = String.format("[Altura]:%s [Largura]:%s", mouseY, mouseX);
-				String grid = String.format("[Linha]:%s [Coluna]:%s", linhaSelecionada, colunaSelecionada);
-				System.out.println(grid);
-				System.out.println(alvo);
-				if (caverna.informarEstadoDoJogo() == EstadoJogo.PARTIDA_EM_ANDAMENTO) {
-					if (linhaSelecionada >= 0 && linhaSelecionada < linhas && colunaSelecionada >= 0
-							&& colunaSelecionada < colunas && caverna.informaPosicao(linhaSelecionada,
-									colunaSelecionada).objeto == ObjetosCaverna.VAZIO) {
-						// Atribui a posicao a caverna no jogo
-						caverna.atribuirPosicao(linhaSelecionada, colunaSelecionada, jogadorLance);
-						// Atualiza o jogo
-						atualizarJogo(jogadorLance, linhaSelecionada, colunaSelecionada);
-						// Mudar de jogador
-						jogadorLance = (jogadorLance == ObjetosCaverna.JOGADOR1) ? ObjetosCaverna.JOGADOR2
-								: ObjetosCaverna.JOGADOR1;
-					}
-				}
-				repaint();
+				joagada(e);
+
 			}
 		});
 
@@ -133,16 +113,17 @@ public class InterfaceDiablo2d extends JPanel {
 		barraDeEstatus.setOpaque(true);
 		barraDeEstatus.setBackground(Color.LIGHT_GRAY);
 
-		barraDePlacar = new JLabel("Placar:     ");
-		barraDePlacar.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 14));
-		barraDePlacar.setBorder(BorderFactory.createEmptyBorder(2, 5, 4, 5));
-		barraDePlacar.setOpaque(true);
-		barraDePlacar.setBackground(Color.LIGHT_GRAY);
+		barraNomeJogadores = new JLabel("", SwingConstants.CENTER);
+		barraNomeJogadores.setFont(new Font(Font.DIALOG_INPUT, Font.BOLD, 14));
+		barraNomeJogadores.setBorder(BorderFactory.createEmptyBorder(2, 5, 4, 5));
+		barraNomeJogadores.setOpaque(true);
+		barraNomeJogadores.setBackground(Color.LIGHT_GRAY);
+		barraNomeJogadores.setVisible(false);
 
 		setLayout(new BorderLayout());
 		// Adicinando a barra de estatus na borda
 		add(barraDeEstatus, BorderLayout.PAGE_END);
-		add(barraDePlacar, BorderLayout.PAGE_START);
+		add(barraNomeJogadores, BorderLayout.PAGE_START);
 		setPreferredSize(new Dimension(larguraDaCaverna, alturaDaCaverna + 30));
 
 		jMenuBar1 = new JMenuBar();
@@ -158,6 +139,45 @@ public class InterfaceDiablo2d extends JPanel {
 
 		// Inicializa as variáveis do jogo
 		this.incializar();
+
+	}
+
+	/**
+	 * Metodo que trata e envia a jogada para q 
+	 * @param e
+	 */
+	protected void joagada(MouseEvent e) {
+		
+		int mouseX = e.getX();
+		int mouseY = e.getY();
+		// Get na linha e na coluna da caverna
+		int linhaSelecionada = mouseY / tamanhoDacelula;
+		int colunaSelecionada = mouseX / tamanhoDacelula;
+		String alvo = String.format("[Altura]:%s [Largura]:%s", mouseY, mouseX);
+		String grid = String.format("[Linha]:%s [Coluna]:%s", linhaSelecionada, colunaSelecionada);
+		System.out.println(grid);
+		System.out.println(alvo);
+		if (caverna.informarEstadoDoJogo() == EstadoJogo.PARTIDA_EM_ANDAMENTO) {
+			if (linhaSelecionada >= 0 && linhaSelecionada < linhas && colunaSelecionada >= 0
+					&& colunaSelecionada < colunas) {
+				if (caverna.informavezJogador1()) {
+
+					jogadorLance = ObjetosCaverna.JOGADOR1;
+					notificarResultado(jogo.jogada(linhaSelecionada, colunaSelecionada, jogadorLance));
+
+					// Atribui a posicao a caverna no jogo
+					caverna.atribuirPosicao(linhaSelecionada, colunaSelecionada, jogadorLance);
+					// Atualiza o jogo
+					atualizarJogo(jogadorLance, linhaSelecionada, colunaSelecionada);
+					// Mudar de jogador
+				} else {
+					jogadorLance = ObjetosCaverna.JOGADOR2;
+					notificarResultado(8);
+				}
+
+			}
+		}
+		repaint();
 
 	}
 
@@ -218,7 +238,9 @@ public class InterfaceDiablo2d extends JPanel {
 
 	}
 
-	public void iniciarMapa() {
+	public void iniciarMapa(String idUsuario, String idJAdversrio) {
+		this.barraNomeJogadores.setText("Jogador:" + idUsuario + "         Advsersario:" + idJAdversrio);
+		this.barraNomeJogadores.setVisible(true);
 		caverna.iniciar(linhas, colunas);
 		caverna.iniciarMapa(linhas, colunas);
 	}
@@ -285,7 +307,7 @@ public class InterfaceDiablo2d extends JPanel {
 		this.notificarResultado(resultado);
 	}
 
-	public void pintaMapa() {
+	public void reDesenharMapa() {
 		repaint();
 	}
 
