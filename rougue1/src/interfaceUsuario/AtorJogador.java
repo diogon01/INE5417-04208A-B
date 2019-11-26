@@ -1,8 +1,12 @@
 package interfaceUsuario;
 
+import javax.swing.JOptionPane;
+
 import dominioProblema.Caverna;
+import dominioProblema.Jogador;
 import dominioProblema.Lance;
 import dominioProblema.ObjetosCaverna;
+import dominioProblema.Posicao;
 import rede.AtorNetGames;
 
 public class AtorJogador {
@@ -77,12 +81,12 @@ public class AtorJogador {
 	}
 
 	public void tratarIniciarPartida(Integer posicao) {
-		System.out.println("[AtorJogador][Iniciar Partida]: Inicia a partida na interface gráfica]");
+		System.out.println("[AtorJogador][TratarIniciarPartida]: sua posicoes" + posicao);
 		tab.criarJogador(idUsuario);
 		String idJAdversrio = rede.informarNomeAdversario(idUsuario);
 		tab.criarJogador(idJAdversrio);
-		janela.iniciarMapa(idUsuario, idJAdversrio);
 		tab.habilitarJogadores(posicao);
+		janela.iniciarMapa(idUsuario, idJAdversrio);
 		tab.estabelecerPartidaEmAndamento();
 		janela.reDesenharMapa();
 	}
@@ -96,7 +100,7 @@ public class AtorJogador {
 	public int jogada(int linha, int coluna, ObjetosCaverna objeto) {
 		int resultado = 0;
 		resultado = tab.jogada(linha, coluna, objeto);
-		
+
 		if ((resultado == 10) || (resultado == 9)) {
 			this.enviarJogada(linha, coluna, objeto);
 		}
@@ -106,7 +110,13 @@ public class AtorJogador {
 	private void enviarJogada(int linha, int coluna, ObjetosCaverna objeto) {
 		Lance lance = tab.informarJogada(objeto, linha, coluna);
 		rede.enviarJogada(lance);
+
+	}
+
+	public int jogadaTeclado(int linha, int coluna, Jogador jodador) {
+	    
 		
+		return 0;
 	}
 
 }

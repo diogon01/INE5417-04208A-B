@@ -10,7 +10,7 @@ public class Jogador {
 	private int coluna;
 	protected boolean daVez;
 	protected EstadoJogo estadoJogo;
-
+	protected ObjetosCaverna objeto;
 
 	public boolean informarDaVez() {
 		return daVez;
@@ -51,6 +51,10 @@ public class Jogador {
 
 	public void desabilitar() {
 		daVez = false;
+	}
+
+	public void atribuirObjeto(ObjetosCaverna objeto) {
+		this.objeto = objeto;
 	}
 
 	public void assumirVencedor() {

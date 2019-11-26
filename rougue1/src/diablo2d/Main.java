@@ -14,7 +14,7 @@ public class Main extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private static InterfaceDiablo2d interfaceJogo;
 
-	public static void main(String[] args) {	
+	public static void main(String[] args) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				JFrame frame = new JFrame("Diablo2");
@@ -24,9 +24,9 @@ public class Main extends JFrame {
 				frame.pack();
 				frame.setLocationRelativeTo(null); // center the application window
 				frame.setVisible(true); // show it
-				EscutarCaverna.escutarTeclado(frame);
+				// EscutarCaverna.escutarTeclado(frame);
 			}
 		});
-				
+
 	}
 }

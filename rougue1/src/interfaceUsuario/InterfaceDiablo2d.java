@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -97,10 +99,31 @@ public class InterfaceDiablo2d extends JPanel {
 
 	public InterfaceDiablo2d(JFrame frameDiablo2D) {
 		System.out.println("[MouseEvent][Click do Mouse]: Escutando o clique do mouse!");
-		this.addMouseListener(new MouseAdapter() {
+		/*
+		 * this.addMouseListener(new MouseAdapter() {
+		 * 
+		 * @Override public void mouseClicked(MouseEvent e) { joagada(e);
+		 * 
+		 * } });
+		 */
+		frameDiablo2D.addKeyListener(new KeyListener() {
+
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				joagada(e);
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				jogadaTeclado(e);
 
 			}
 		});
@@ -139,6 +162,53 @@ public class InterfaceDiablo2d extends JPanel {
 
 		// Inicializa as variáveis do jogo
 		this.incializar();
+
+	}
+
+	/**
+	 * Evento que trata a jogada do teclado!
+	 * 
+	 * @param e
+	 */
+	public void jogadaTeclado(KeyEvent e) {
+
+		if (caverna.informarConectado() && caverna.informarEstadoDoJogo() == EstadoJogo.PARTIDA_EM_ANDAMENTO) {
+			String alvo = null;
+
+			if (caverna.informavezJogador1()) {
+				int linhaSelecionada = 0, colunaSelecionada = 0;
+
+				if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == 87) {
+					linhaSelecionada = -1;
+					colunaSelecionada = 0;
+					alvo = String.format("[KeyListener][Tecla Pressionada]: Movimentar para cima:%s", e.getKeyCode());
+				} else if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == 68) {
+					linhaSelecionada = 0;
+					colunaSelecionada = 1;
+					alvo = String.format("[KeyListener][Tecla Pressionada]: Movimentar para direita:%s",
+							e.getKeyCode());
+				} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == 83) {
+					linhaSelecionada = 1;
+					colunaSelecionada = 0;
+					alvo = String.format("[KeyListener][Tecla Pressionada]: Movimentar para baixo:%s", e.getKeyCode());
+				} else if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == 65) {
+					linhaSelecionada = 0;
+					colunaSelecionada = -1;
+					alvo = String.format("[KeyListener][Tecla Pressionada]: Movimentar para esquerda:%s",
+							e.getKeyCode());
+				}
+
+				notificarResultado(jogo.jogada(linhaSelecionada, colunaSelecionada, jogadorLance));
+				// Atribui a posicao a caverna no jogo
+
+			} else {
+				alvo = String.format("[KeyListener][Tecla Pressionada][NOT SUA VEZ]: Aguarda o seu turno para jogar!");
+			}
+
+			System.out.println(alvo);
+		} else {
+			System.out.println("[KeyListener][Tecla Pressionada][PARTIDA NOT ANDAMENTO]: Aguarda a partida começar!");
+		}
 
 	}
 

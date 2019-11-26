@@ -11,8 +11,8 @@ public class Caverna {
 
 	// TODO: Vericar melhor as posicoes
 	public Posicao[][] posicoes;
-	protected Jogador jogador1;
-	protected Jogador jogador2;
+	protected Jogador jogadorLocal;
+	protected Jogador jogadorConvidado;
 	protected boolean partidaEmAndamento;
 	protected boolean conectado;
 	protected EstadoJogo estadoJogo;
@@ -106,7 +106,7 @@ public class Caverna {
 	}
 
 	public Jogador getJogador(String idJogador) {
-		return jogador1.informarNome().equals(idJogador) ? jogador1 : jogador2;
+		return jogadorLocal.informarNome().equals(idJogador) ? jogadorLocal : jogadorConvidado;
 	}
 
 	public void zerarPosicoesAfetadas(int linhas, int colunas) {
@@ -128,30 +128,35 @@ public class Caverna {
 	}
 
 	public String getIdVencedor() {
-		return jogador1.informarVencedor() ? jogador1.informarNome() : jogador2.informarNome();
+		return jogadorLocal.informarVencedor() ? jogadorLocal.informarNome() : jogadorConvidado.informarNome();
 	}
 
 	public int tratarLance(Jogador jogador, int linha, int coluna, ObjetosCaverna objeto) {
-		Posicao pose = this.informaPosicao(linha, coluna);
+
+		Posicao pose = this.informaPosicao(jogadorLocal.getLinha() + linha, jogadorLocal.getColuna() + coluna);
 		if (pose.objeto == ObjetosCaverna.JOGADOR2 || pose.objeto == ObjetosCaverna.JOGADOR1) {
 			return 11;
 		}
 		if (pose.objeto == ObjetosCaverna.PAREDE) {
 			return 12;
 		}
+
+		this.atribuirPosicao(jogadorLocal.getLinha(), jogadorLocal.getColuna(), ObjetosCaverna.PISO);
+		this.atribuirPosicao(jogadorLocal.getLinha() + linha, jogadorLocal.getColuna() + coluna, jogador.objeto);
+
 		return 10;
 	}
 
 	public void finalizarPartida() {
-		int placar1 = this.informarPlacar(jogador1);
-		int placar2 = this.informarPlacar(jogador2);
+		int placar1 = this.informarPlacar(jogadorLocal);
+		int placar2 = this.informarPlacar(jogadorConvidado);
 		partidaEmAndamento = false;
-		jogador1.desabilitar();
-		jogador2.desabilitar();
+		jogadorLocal.desabilitar();
+		jogadorConvidado.desabilitar();
 		if (placar1 > placar2) {
-			jogador1.assumirVencedor();
+			jogadorLocal.assumirVencedor();
 		} else if (placar2 > placar1) {
-			jogador2.assumirVencedor();
+			jogadorConvidado.assumirVencedor();
 		}
 	}
 
@@ -169,10 +174,10 @@ public class Caverna {
 	}
 
 	public int jogada(int linha, int coluna, ObjetosCaverna objeto) {
-		boolean vez = jogador1.informarDaVez();
+		boolean vez = jogadorLocal.informarDaVez();
 		int resultado;
 		if (vez) {
-			resultado = this.tratarLance(jogador1, linha, coluna, objeto);
+			resultado = this.tratarLance(jogadorLocal, linha, coluna, objeto);
 			if (resultado == 10 || (resultado == 9)) {
 
 			}
@@ -226,8 +231,8 @@ public class Caverna {
 	// Metodo que esvazia a posicoes inicias do jogo
 	public void esvaziar() {
 		System.out.println("[Caverna][Esvaziar]: Reiniciando o estado da caverna!");
-		this.jogador1 = null;
-		this.jogador2 = null;
+		this.jogadorLocal = null;
+		this.jogadorConvidado = null;
 		this.estadoJogo = EstadoJogo.NOT_ANDAMENTO;
 	}
 
@@ -237,14 +242,14 @@ public class Caverna {
 	 * @param idUsuario
 	 */
 	public void criarJogador(String idJogador) {
-		if (jogador1 == null) {
-			jogador1 = new Jogador();
-			jogador1.iniciar();
-			jogador1.assumirNome(idJogador);
+		if (jogadorLocal == null) {
+			jogadorLocal = new Jogador();
+			jogadorLocal.iniciar();
+			jogadorLocal.assumirNome(idJogador);
 		} else {
-			jogador2 = new Jogador();
-			jogador2.iniciar();
-			jogador2.assumirNome(idJogador);
+			jogadorConvidado = new Jogador();
+			jogadorConvidado.iniciar();
+			jogadorConvidado.assumirNome(idJogador);
 		}
 	}
 
@@ -265,29 +270,49 @@ public class Caverna {
 	 */
 	public void habilitarJogadores(Integer posicao) {
 		if (posicao == 1) {
-			jogador1.habilitar();
-			jogador1.assumirSimbolo(true);
-			jogador2.assumirSimbolo(false);
+			jogadorLocal.habilitar();
+			jogadorLocal.atribuirObjeto(ObjetosCaverna.JOGADOR1);
+			jogadorLocal.setLinha(14);
+			jogadorLocal.setColuna(8);
+			jogadorLocal.assumirSimbolo(true);
+			jogadorConvidado.assumirSimbolo(false);
+			jogadorConvidado.setLinha(14);
+			jogadorConvidado.setColuna(12);
 
 		} else {
-			jogador2.habilitar();
-			jogador2.assumirSimbolo(true);
-			jogador1.assumirSimbolo(false);
+			jogadorConvidado.habilitar();
+			jogadorLocal.atribuirObjeto(ObjetosCaverna.JOGADOR2);
+			jogadorLocal.setLinha(14);
+			jogadorLocal.setColuna(12);
+			jogadorConvidado.assumirSimbolo(true);
+			jogadorLocal.assumirSimbolo(false);
+			jogadorConvidado.setLinha(14);
+			jogadorConvidado.setColuna(8);
+
 		}
 	}
 
 	public void receberJogada(Lance jogada) {
+
 		int linha = jogada.informarLinha();
 		int coluna = jogada.informarColuna();
-		boolean vez = jogador1.informarDaVez();
-		
+		boolean vez = jogadorLocal.informarDaVez();
+
+		if (vez) {
+			jogadorLocal.desabilitar();
+			jogadorConvidado.habilitar();
+		} else {
+			jogadorConvidado.desabilitar();
+			jogadorLocal.habilitar();
+		}
+
 		this.atribuirPosicao(linha, coluna, jogada.informarObjeto());
-		
+
 		int resultado;
 		if (vez) {
-			resultado = this.tratarLance(jogador1, linha, coluna, jogada.informarObjeto());
+			resultado = this.tratarLance(jogadorLocal, linha, coluna, jogada.informarObjeto());
 		} else {
-			resultado = this.tratarLance(jogador2, linha, coluna, jogada.informarObjeto());
+			resultado = this.tratarLance(jogadorConvidado, linha, coluna, jogada.informarObjeto());
 		}
 		if (resultado == 9) {
 			this.finalizarPartida();
@@ -297,7 +322,11 @@ public class Caverna {
 
 	public boolean informavezJogador1() {
 		// TODO Auto-generated method stub
-		return jogador1.daVez;
+		return jogadorLocal.daVez;
+	}
+
+	public ObjetosCaverna informarObjetoJogador() {
+		return jogadorLocal.objeto;
 	}
 
 }

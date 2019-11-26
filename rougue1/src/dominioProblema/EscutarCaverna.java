@@ -53,7 +53,6 @@ public class EscutarCaverna {
 			public void keyReleased(KeyEvent e) {
 			}
 		});
-		;
 
 	}
 
