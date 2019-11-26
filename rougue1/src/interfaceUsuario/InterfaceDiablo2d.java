@@ -200,6 +200,7 @@ public class InterfaceDiablo2d extends JPanel {
 
 				notificarResultado(jogo.jogada(linhaSelecionada, colunaSelecionada, jogadorLance));
 				// Atribui a posicao a caverna no jogo
+				repaint();
 
 			} else {
 				alvo = String.format("[KeyListener][Tecla Pressionada][NOT SUA VEZ]: Aguarda o seu turno para jogar!");

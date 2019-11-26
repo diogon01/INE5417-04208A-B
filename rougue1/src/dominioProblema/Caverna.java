@@ -141,8 +141,19 @@ public class Caverna {
 			return 12;
 		}
 
-		this.atribuirPosicao(jogadorLocal.getLinha(), jogadorLocal.getColuna(), ObjetosCaverna.PISO);
-		this.atribuirPosicao(jogadorLocal.getLinha() + linha, jogadorLocal.getColuna() + coluna, jogador.objeto);
+		int linhaMovimento = jogador.getLinha() + linha;
+		int colunaMovimento = jogador.getColuna() + coluna;
+
+		if (jogador.daVez) {
+			this.atribuirPosicao(jogadorLocal.getLinha(), jogadorLocal.getColuna(), ObjetosCaverna.PISO);
+			jogadorLocal.setLinha(linhaMovimento);
+			jogadorLocal.setColuna(colunaMovimento);
+
+			String alvo = String.format("[Altura]:%s [Largura]:%s", linhaMovimento, colunaMovimento);
+			System.out.println(alvo);
+			this.atribuirPosicao(jogadorLocal.getLinha(), jogadorLocal.getColuna(), jogador.objeto);
+
+		}
 
 		return 10;
 	}
@@ -298,16 +309,16 @@ public class Caverna {
 		int coluna = jogada.informarColuna();
 		boolean vez = jogadorLocal.informarDaVez();
 
-		if (vez) {
+		if (jogada.objeto == jogadorLocal.objeto) {
 			jogadorLocal.desabilitar();
 			jogadorConvidado.habilitar();
-		} else {
+		} else if(jogada.objeto == jogadorConvidado.objeto) {
+			
 			jogadorConvidado.desabilitar();
 			jogadorLocal.habilitar();
 		}
-
+		
 		this.atribuirPosicao(linha, coluna, jogada.informarObjeto());
-
 		int resultado;
 		if (vez) {
 			resultado = this.tratarLance(jogadorLocal, linha, coluna, jogada.informarObjeto());
